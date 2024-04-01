@@ -1,0 +1,65 @@
+@import '../../styles/variables';
+
+.colores, .colores2{
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  flex-wrap: wrap;
+  div {
+    width: 200px;
+    height: 40px;
+  }
+
+  .ccl1 { background-color: $clgt1; color: black; }
+  .ccl2 { background-color: $clgt2; color: black; }
+  .ccl3 { background-color: $clgt3; color: black; }
+  .ccl4 { background-color: $clgt4; color: black; }
+  .ccl5 { background-color: $clgt5; color: black; }
+  .ccl6 { background-color: $clgt6; color: black; }
+  .ccl7 { background-color: $clgt7; color: black; }
+  .ccl8 { background-color: $clgt8; color: black; }
+  .ccl9 { background-color: $clgt9; color: black; }
+  .ccl10 { background-color: $cwhite; color: black; }
+  .cos1 { background-color: $cdrk1; color: white; }
+  .cos2 { background-color: $cdrk2; color: white; }
+  .cos3 { background-color: $cdrk3; color: white; }
+  .cos4 { background-color: $cdrk4; color: white; }
+  .cos5 { background-color: $cdrk5; color: white; }
+  .cos6 { background-color: $cdrk6; color: white; }
+  .cos7 { background-color: $cdrk7; color: white; }
+  .cos8 { background-color: $cdrk8; color: white; }
+  .cos9 { background-color: $cdrk9; color: white; }
+  .cos10 { background-color: $cblack; color: white; }
+  .col { background-color: $color; color: black;}
+  .gri1 { background-color: $cgrey1; color: black; }
+  .gri2 { background-color: $cgrey2; color: black; }
+  .gri3 { background-color: $cgrey3; color: black; }
+  .gri4 { background-color: $cgrey4; color: black; }
+  .gri5 { background-color: $cgrey5; color: black; }
+  .gri6 { background-color: $cgrey6; color: white; }
+  .gri7 { background-color: $cgrey7; color: white; }
+  .gri8 { background-color: $cgrey8; color: white; }
+  .gri9 { background-color: $cgrey9; color: white; }
+  .sat1 { background-color: $csat1; color: black; }
+  .sat2 { background-color: $csat2; color: black; }
+  .sat3 { background-color: $csat3; color: black; }
+  .sat4 { background-color: $csat4; color: black; }
+  .sat5 { background-color: $csat5; color: black; }
+  .sat6 { background-color: $csat6; color: white; }
+  .sat7 { background-color: $csat7; color: white; }
+  .sat8 { background-color: $csat8; color: white; }
+  .sat9 { background-color: $csat9; color: white; }
+  .dst1 { background-color: $cdst1; color: black; }
+  .dst2 { background-color: $cdst2; color: black; }
+  .dst3 { background-color: $cdst3; color: black; }
+  .dst4 { background-color: $cdst4; color: black; }
+  .dst5 { background-color: $cdst5; color: black; }
+  .dst6 { background-color: $cdst6; color: white; }
+  .dst7 { background-color: $cdst7; color: white; }
+  .dst8 { background-color: $cdst8; color: white; }
+  .dst9 { background-color: $cdst9; color: white; }
+}
+.colores2{
+  height: 360px;
+}

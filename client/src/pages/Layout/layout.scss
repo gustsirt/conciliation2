@@ -1,0 +1,161 @@
+@import '../../styles/variables';
+
+$layoutBrand: $fontB;
+$headercol1: $color;
+$headercol2: $cgrey3;
+
+$userFondo: $cgrey7;
+$userText: $clgt1;
+$userAlternative: $cblack;
+
+$main-back: $cgrey3;
+$footercol1: $clgt4;
+$footercol2: $cdrk3;
+
+.header {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: $headercol2;
+
+  img{
+    height: 76px;
+    padding: 0.5rem;
+  }
+
+  nav{
+    height: 100%;
+    width: 100%;
+    margin: auto 0;
+    display: flex;
+    justify-content: space-between;
+    ul{
+      width: 100;
+      display: flex;
+      justify-items: center;
+      padding: 1rem;
+      list-style: none;
+      
+      li{
+        margin: 0.5rem;
+        font-weight: 500;
+        padding: 0.5rem;
+
+        &:hover {
+          background-color: $headercol1;
+          border-radius: 0.5rem;
+          a {
+            color: $headercol2;;
+          }
+        }
+      }
+    }
+    .user-widget{
+      width: auto;
+      display: flex;
+      align-items: center;
+      
+      .user-area {
+        padding: 0.5em;
+        width: 13em;
+        background-color: $userFondo;
+        color: $userText;
+
+        a, p {
+          font-weight: 700;
+          margin: auto 0.5em;
+        }
+      }
+    }
+  }
+}
+
+
+.main {
+  padding: 2em 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .page-container {
+    padding: 0.4em;
+    width: 100%;
+    background-color: $main-back;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    .title {
+      margin-top: 0.4em;
+      margin-bottom: 0.7em;
+      text-align: center;
+    }
+  }
+}
+
+.footer {
+  width: 100%;
+  background: $footercol1;
+  color: $footercol2;
+  font-size: 14px;
+  text-align: center;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    display: none;
+    font-size: 36px;
+    font-weight: 500;
+    position: relative;
+    font-family: $layoutBrand, sans-serif;
+    margin: 0 0 15px 0;
+  }
+
+  .descrip {
+    width: 60%;
+    font-size: 15;
+    font-style: italic;
+    margin: 0 0 40px 0;
+  }
+
+  .social-links {
+    margin: 0 0 40px 0;
+
+    & a {
+      font-size: 18px;
+      display: inline-block;
+      background: $footercol2;
+      color: $footercol1;
+      line-height: 1;
+      padding: 8px 0;
+      margin-right: 4px;
+      border-radius: 50%;
+      text-align: center;
+      width: 36px;
+      height: 36px;
+      transition: 0.3s;
+
+      &:hover {
+        background: $footercol1;
+        color: $footercol2;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .copyright {
+    margin: 0 0 5px 0;
+
+    & .pstr{
+      font-weight: bold;
+    }
+  }
+}
+
+.drop-shadow{
+  filter: drop-shadow(0 1px 3px grey);
+}

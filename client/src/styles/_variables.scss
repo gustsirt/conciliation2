@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+$fontT: 'Playfair Display'; // titulo 1
+$fontH: 'Alegreya Sans'; // titulos
+$fontP: 'Raleway'; // parrafo
+$fontB: 'Alegreya Sans'; // marca
+
+$color: #599BB5;
+
+// Definicion de Gama de colores
+$cwhite: white;
+$cgrey1: #f8f9fa;
+$cgrey2: #e9ecef;
+$cgrey3: #dee2e6;
+$cgrey4: #ced4da;
+$cgrey5: #adb5bd;
+$cgrey6: #6c757d;
+$cgrey7: #495057;
+$cgrey8: #343a40;
+$cgrey9: #212529;
+$cblack:  black;
+
+$clgt1: saturate(lighten($color, 7%),7%);
+$clgt2: saturate(lighten($color, 14%),14%);
+$clgt3: saturate(lighten($color, 21%),21%);
+$clgt4: saturate(lighten($color, 28%),28%);
+$clgt5: saturate(lighten($color, 35%),35%);
+$clgt6: saturate(lighten($color, 42%),42%);
+$clgt7: saturate(lighten($color, 49%),49%);
+$clgt8: saturate(lighten($color, 56%),56%);
+$clgt9: saturate(lighten($color, 63%),63%);
+$cdrk1: desaturate(darken($color, 7%),7%);
+$cdrk2: desaturate(darken($color, 14%),14%);
+$cdrk3: desaturate(darken($color, 21%),21%);
+$cdrk4: desaturate(darken($color, 28%),28%);
+$cdrk5: desaturate(darken($color, 35%),35%);
+$cdrk6: desaturate(darken($color, 42%),42%);
+$cdrk7: desaturate(darken($color, 49%),49%);
+$cdrk8: desaturate(darken($color, 56%),56%);
+$cdrk9: desaturate(darken($color, 63%),63%);
+$csat1: saturate($color, 7%);
+$csat2: saturate($color, 14%);
+$csat3: saturate($color, 21%);
+$csat4: saturate($color, 28%);
+$csat5: saturate($color, 35%);
+$csat6: saturate($color, 42%);
+$csat7: saturate($color, 49%);
+$csat8: saturate($color, 56%);
+$csat9: saturate($color, 63%);
+$cdst1: desaturate($color, 7%);
+$cdst2: desaturate($color, 14%);
+$cdst3: desaturate($color, 21%);
+$cdst4: desaturate($color, 28%);
+$cdst5: desaturate($color, 35%);
+$cdst6: desaturate($color, 42%);
+$cdst7: desaturate($color, 49%);
+$cdst8: desaturate($color, 56%);
+$cdst9: desaturate($color, 63%);

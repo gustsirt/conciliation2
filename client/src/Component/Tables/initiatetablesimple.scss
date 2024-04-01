@@ -1,0 +1,74 @@
+@import "../../styles/variables";
+
+$table-colorfont: $cblack;
+$table-headerfont: $fontP;
+$table-font: $fontH; // y botones
+$table-headercolor: $cgrey3;
+$table-hovercolor: $cgrey1;
+$table-border: $cgrey3;
+$buton-color: $clgt1;
+$buton-hovercolor: $clgt2;
+$buton-fontcolor: $cwhite;
+
+.table-container {
+  font-family: $table-font;
+  color: $table-colorfont;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid $table-border;
+
+    th, td {
+      padding: 0.4em;
+      text-align: left;
+      border-bottom: 1px solid $table-border;
+    }
+
+    th {
+      background-color: $table-headercolor;
+      font-family: $table-headerfont;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+
+    td {
+      font-size: 0.9em;
+    }
+  }
+
+  // Estilos para cuando el cursor pasa sobre las filas de la tabla
+  tr:hover {
+    background-color: $table-hovercolor;
+  }
+
+  .table-options{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 0.5em;
+  }
+
+  .table-footer{
+    display: flex;
+    justify-content: end;
+    button {
+      height: 1.3em;
+      width: 1.3em;
+      background-color: $buton-color;
+      font-size: 1.4em;
+      color: $buton-fontcolor;
+      border: none;
+      padding: 4px;
+      margin: 4px;
+      cursor: pointer;
+      font-family: $table-font;
+      border-radius: 0.5em; // Bordes redondeados para los botones
+      transition: background-color 0.3s; // Transición suave del color de fondo al pasar el cursor
+  
+      &:hover {
+        background-color: $buton-hovercolor;
+      }
+    }
+  }
+}
