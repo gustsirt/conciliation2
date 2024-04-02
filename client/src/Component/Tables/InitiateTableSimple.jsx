@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import SimpleTablePaginada from './SimpleTablePaginada.jsx'
-import useFetchService from '../../services/useFetchService.jsx'
+import useFetchService from '../../hooks/useFetchService.jsx'
 import PropTypes from 'prop-types';
 import './initiatetablesimple.scss';
 
 
-const InitiateTableSimple = ({ endpoint, columns }) => {
+const InitiateTableSimple = ({ endpoint, columns, handleCellClick }) => {
   const { loading, fetchData} = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
@@ -41,7 +41,7 @@ const InitiateTableSimple = ({ endpoint, columns }) => {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        <SimpleTablePaginada data={dataTable} columns={columns} />
+        <SimpleTablePaginada data={dataTable} columns={columns} handleCellClick={handleCellClick}/>
       )}
     </div>
   )

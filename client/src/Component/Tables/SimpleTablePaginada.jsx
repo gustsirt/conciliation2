@@ -3,7 +3,7 @@ import {useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSo
 import PropTypes from 'prop-types'; 
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
-const SimpleTablePaginada = ({ data, columns} ) => {
+const SimpleTablePaginada = ({ data, columns, handleCellClick} ) => {
 
   const [sorting, setSorting] = useState([])  
   const [filtering, setFiltering] = useState("")
@@ -21,8 +21,10 @@ const SimpleTablePaginada = ({ data, columns} ) => {
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
-}) 
+  }) 
 
+  const handleClick = handleCellClick || (() => {});
+  
   return (
     <div>
       <div className='table-options'>
@@ -57,7 +59,7 @@ const SimpleTablePaginada = ({ data, columns} ) => {
               <tr key={row.id}>
                 {
                   row.getVisibleCells().map( cell => (
-                    <td key={cell.id}>
+                    <td key={cell.id} onClick={() => handleClick(row, cell.column) }>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))

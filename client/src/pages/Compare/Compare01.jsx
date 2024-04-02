@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import InitiateTableSimple from '../../Component/Tables/InitiateTableSimple';
 import './compare.scss';
+import useTableSimple from '../../Component/Tables/hooks/useTableSimple';
 
 const Compare01 = () => {
   const endpoint1 = 'api/files/01/';
@@ -95,17 +96,24 @@ const Compare01 = () => {
       format: 'text',
     },
   ] 
+
+  const {getValues} = useTableSimple()
+
+  const logcell = (row, column) => {
+    console.log(getValues(row, column));
+  }
+
   return (
     <div>
       <h1 className='title'>Comparacion</h1>
       <div className='tables-container'>
         <div>
           <h2 className='title-table'>Tabla 01 - tarjeta</h2>
-          <InitiateTableSimple endpoint={endpoint1} columns={columns1} />
+          <InitiateTableSimple endpoint={endpoint1} columns={columns1} handleCellClick={logcell}/>
         </div>
         <div>
           <h2 className='title-table'>Tabla 02 - cupones</h2>
-          <InitiateTableSimple endpoint={endpoint2} columns={columns2} />
+          <InitiateTableSimple endpoint={endpoint2} columns={columns2} handleCellClick={logcell} />
         </div>
       </div>
     </div>
