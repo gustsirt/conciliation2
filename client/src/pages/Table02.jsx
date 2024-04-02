@@ -1,24 +1,14 @@
 import dayjs from 'dayjs';
 import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
 
-const Table01 = () => {
-  const endpoint = 'api/files/01/';
+const Table02 = () => {
+  const endpoint = 'api/files/02/';
   const columns = [
     {
       header: 'ID',
       accessorKey: '_id',
       format: 'text',
       hidden: true,
-    },
-    { 
-      header: 'Servicio',
-      accessorKey: 'service',
-      format: 'text',
-    },
-    {
-      header: 'N Com',
-      accessorKey: 'business_number',
-      format: 'text',
     },
     {
       header: 'Bandera',
@@ -47,19 +37,18 @@ const Table01 = () => {
       format: 'currency',
     },
     {
-      header: 'F. Pago',
-      accessorKey: 'payment_date',
-      cell: (info) => dayjs(info.getValue()).format('DD/MM'),
-      format: 'date',
+      header: 'Cliente',
+      accessorKey: 'client',
+      format: 'text',
     },
   ] 
 
   return (
     <div>
-      <h1 className='title'>Tabla01</h1>
+      <h1 className='title'>Tabla02</h1>
       <InitiateTableSimple endpoint={endpoint} columns={columns} />
     </div>
   )
 }
 
-export default Table01
+export default Table02

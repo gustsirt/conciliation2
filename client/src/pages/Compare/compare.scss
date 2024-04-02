@@ -1,0 +1,10 @@
+.tables-container{
+  display: flex;
+  gap: 1em;
+
+  .title-table{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1em;
+  }
+}

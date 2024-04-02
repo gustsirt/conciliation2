@@ -15,21 +15,21 @@ const mapType = {
 };
 
 
-export class TransformOriginData {
-  constructor(ObjectCsv, user = undefined) {
+export default class TransformOriginData {
+  constructor(dataFile, user = undefined) {
     this.service =           "Prisma"
-    this.flag =              mapFlag[ObjectCsv.MARCA?.toUpperCase()] || '';
-    this.type =              mapType[ObjectCsv.MARCA?.toUpperCase()] || '';
-    this.business_number =   ObjectCsv.ESTABLECIMIENTO || '';
-    this.batch =             Number(ObjectCsv.LOTE) || 0;
-    this.number =            Number(ObjectCsv["NUM.CUPON"]) || 0;
-    this.last_4_number =     ObjectCsv["NUM.TARJETA"] ? Number(ObjectCsv["NUM.TARJETA"].slice(-4)) : '';
-    this.installment =       Number(ObjectCsv["CANT.CUOTAS"]) || 0;
-    this.presentation_date = ObjectCsv.PRESENTACION ? parseDate(ObjectCsv.PRESENTACION) : null;
-    this.origin_date =       ObjectCsv.COMPRA ? parseDate(ObjectCsv.COMPRA) : null;
-    this.payment_date =      ObjectCsv.PAGO ? parseDate(ObjectCsv.PAGO) : null;
-    this.description =       String(ObjectCsv.DETALLE || '').trim();
-    this.amount =            ObjectCsv.MONTO_BRUTO ? Number(ObjectCsv.MONTO_BRUTO.replace(",", ".")) : 0;
+    this.flag =              mapFlag[dataFile.MARCA?.toUpperCase()] || '';
+    this.type =              mapType[dataFile.MARCA?.toUpperCase()] || '';
+    this.business_number =   dataFile.ESTABLECIMIENTO || '';
+    this.batch =             Number(dataFile.LOTE) || 0;
+    this.number =            Number(dataFile["NUM.CUPON"]) || 0;
+    this.last_4_number =     dataFile["NUM.TARJETA"] ? Number(dataFile["NUM.TARJETA"].slice(-4)) : '';
+    this.installment =       Number(dataFile["CANT.CUOTAS"]) || 0;
+    this.presentation_date = dataFile.PRESENTACION ? parseDate(dataFile.PRESENTACION) : null;
+    this.origin_date =       dataFile.COMPRA ? parseDate(dataFile.COMPRA) : null;
+    this.payment_date =      dataFile.PAGO ? parseDate(dataFile.PAGO) : null;
+    this.description =       String(dataFile.DETALLE || '').trim();
+    this.amount =            dataFile.MONTO_BRUTO ? Number(dataFile.MONTO_BRUTO.replace(",", ".")) : 0;
     this.sign =              Math.sign(this.amount) || 0;
     this.atCreated =         dayjs()
     this.lastupdate =        dayjs()
@@ -40,8 +40,4 @@ export class TransformOriginData {
 function  parseDate(dateString) {
   const [day, month, year] = dateString.split("/");
   return dayjs(`${year}-${month}-${day}`);
-}
-
-export function transformDataArray(arrayOfObjects, TransformClass, user) {
-  return arrayOfObjects.map(obj => new TransformClass(obj, user));
 }

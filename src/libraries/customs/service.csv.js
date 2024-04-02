@@ -1,11 +1,11 @@
 import CustomService from "./service.js";
 
 import Papa from 'papaparse';
-import { TransformOriginData, transformDataArray } from "../../modules/data01/logic/dtos.js";
 
 class CustomServiceCsv extends CustomService {
-  constructor (dao) {
+  constructor (dao, DTO) {
     super(dao)
+    this.DTO = DTO
   }
   // constructor(dao) {
   //   this.dao = dao;
@@ -26,15 +26,14 @@ class CustomServiceCsv extends CustomService {
 
     const filteredData = csvData.data.filter(e => e[oneColumn] != '' && e[oneColumn] && !e[oneColumn].includes(noInclude))
 
-    const transformedData = transformDataArray(filteredData, TransformOriginData, user);
-
+    // aplica el DTO a todo el array
+    const transformedData = filteredData.map(obj => new this.DTO(obj, user));
     return transformedData;
   }
 
   // Método en el servicio separar los datos nuevos de lo ya incorporados en la Base de Datos
   checkExistingData = async (newData, filterFields) => {
     try {
-
       let existingData = [];
       let newDataToCreate = [];
 

@@ -1,5 +1,5 @@
 import multer from "multer";
-import { logger } from "../../../libraries/logger.js";
+import { logger } from "./logger.js";
 
 const storage = multer.memoryStorage();
 

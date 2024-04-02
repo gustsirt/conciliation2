@@ -15,6 +15,14 @@ const LayoutNav = ({user}) => {
       label: "Table01",
     },
     {
+      path: "table02/",
+      label: "Table02",
+    },
+    {
+      path: "compare01/",
+      label: "Compare",
+    },
+    {
       path: "clients/",
       label: "Clientes",
       visibleFor: {

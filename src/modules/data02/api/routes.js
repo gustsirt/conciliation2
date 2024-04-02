@@ -1,9 +1,9 @@
 import { Router } from "express";
 import upload from "../../../libraries/multer.js";
-import Data01Controller from "./controller.js";
+import Data02Controller from "./controller.js";
 
 const router = Router();
-const uControl = new Data01Controller();
+const uControl = new Data02Controller();
 
 //api/files
 export default router
