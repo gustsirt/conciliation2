@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
+import FileUpload from '../Component/Tables/FileUpload';
 
 const Table01 = () => {
   const endpoint = 'api/files/01/';
@@ -58,6 +59,8 @@ const Table01 = () => {
     <div>
       <h1 className='title'>Tabla01</h1>
       <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}}/>
+
+      <FileUpload endpoint={"api/files/01/fromfile/"}/>
     </div>
   )
 }
