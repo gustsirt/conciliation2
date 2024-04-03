@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import InitiateTableSimple from '../../Component/Tables/InitiateTableSimple';
 import './compare.scss';
 import useTableSimple from '../../Component/Tables/hooks/useTableSimple';
+import { useEffect, useState } from 'react';
 
 const Compare01 = () => {
   const endpoint1 = 'api/files/01/';
@@ -55,6 +56,7 @@ const Compare01 = () => {
       format: 'date',
     },
   ] 
+  const [selectedValue1, setSelectedValue1] = useState({});
 
   const endpoint2 = 'api/files/02/';
   const columns2 = [
@@ -95,13 +97,19 @@ const Compare01 = () => {
       accessorKey: 'client',
       format: 'text',
     },
-  ] 
+  ]
+  const [selectedValue2, setSelectedValue2] = useState({}); 
 
   const {getValues} = useTableSimple()
 
-  const logcell = (row, column) => {
-    console.log(getValues(row, column));
-  }
+  const logcell1 = async (row, column) => await setSelectedValue1(getValues(row, column))
+  const logcell2 = async (row, column) => await setSelectedValue2(getValues(row, column))
+
+  useEffect(() => {
+    console.log("table1: ",selectedValue1);
+    console.log("table2: ",selectedValue2);
+  }, [selectedValue1, selectedValue2])
+  
 
   return (
     <div>
@@ -109,11 +117,11 @@ const Compare01 = () => {
       <div className='tables-container'>
         <div>
           <h2 className='title-table'>Tabla 01 - tarjeta</h2>
-          <InitiateTableSimple endpoint={endpoint1} columns={columns1} handleCellClick={logcell}/>
+          <InitiateTableSimple endpoint={endpoint1} columns={columns1} handleCellClick={logcell1} selectedValue={selectedValue2} />
         </div>
         <div>
           <h2 className='title-table'>Tabla 02 - cupones</h2>
-          <InitiateTableSimple endpoint={endpoint2} columns={columns2} handleCellClick={logcell} />
+          <InitiateTableSimple endpoint={endpoint2} columns={columns2} handleCellClick={logcell2} selectedValue={selectedValue1} />
         </div>
       </div>
     </div>

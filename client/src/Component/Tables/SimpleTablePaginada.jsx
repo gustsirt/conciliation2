@@ -1,9 +1,9 @@
-import {useState}  from 'react'
+import {useEffect, useRef, useState}  from 'react'
 import {useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel} from '@tanstack/react-table'
 import PropTypes from 'prop-types'; 
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
-const SimpleTablePaginada = ({ data, columns, handleCellClick} ) => {
+const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) => {
 
   const [sorting, setSorting] = useState([])  
   const [filtering, setFiltering] = useState("")
@@ -24,9 +24,30 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick} ) => {
   }) 
 
   const handleClick = handleCellClick || (() => {});
+  const tableRef = useRef(null);
+
+  // limpia el filtro al seleccionar afuera
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (tableRef.current && !tableRef.current.contains(e.target)) {
+        setFiltering("");
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  // Aplicar filtro basado en el valor seleccionado
+  useEffect(() => {
+    setFiltering(selectedValue.value || "");
+  }, [selectedValue])
   
   return (
-    <div>
+    <div ref={tableRef}>
       <div className='table-options'>
         <input
           type="text"

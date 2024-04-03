@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import './initiatetablesimple.scss';
 
 
-const InitiateTableSimple = ({ endpoint, columns, handleCellClick }) => {
+const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue }) => {
   const { loading, fetchData} = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
   
+  // Carga los datos de la tabla
   useEffect( () => {
     async function fetchDataAndSetDataTable () {
       try {
@@ -32,8 +33,6 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick }) => {
   }, [endpoint, dataLoaded]);
 
 
-
-
   return (
     <div className="table-container">
       {loading ? (
@@ -41,7 +40,7 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick }) => {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        <SimpleTablePaginada data={dataTable} columns={columns} handleCellClick={handleCellClick}/>
+        <SimpleTablePaginada data={dataTable} columns={columns} handleCellClick={handleCellClick} selectedValue={selectedValue}/>
       )}
     </div>
   )
