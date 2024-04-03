@@ -57,7 +57,7 @@ const Table01 = () => {
   return (
     <div>
       <h1 className='title'>Tabla01</h1>
-      <InitiateTableSimple endpoint={endpoint} columns={columns} />
+      <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}}/>
     </div>
   )
 }
