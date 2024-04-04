@@ -1,4 +1,4 @@
-const useTableSimple = () => {
+const useTableSimple = (allowedColumns = []) => {
   const getValues = (row, column) => {
       return {
         rowid: row.original._id,
@@ -6,7 +6,19 @@ const useTableSimple = () => {
         value: row.original[column.id]
       }
   }
-  return { getValues }
+
+  const getValuesLimited = (row, clickedColumn) => {
+    const column = allowedColumns.find(column => column === clickedColumn.id);
+    if (!column) return null;
+
+    return {
+      rowid: row.original._id,
+      column: clickedColumn.id,
+      value: row.original[clickedColumn.id]
+    };
+  };
+
+  return { getValues, getValuesLimited }
 }
 
 export default useTableSimple

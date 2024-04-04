@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState}  from 'react'
-import {useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel} from '@tanstack/react-table'
-import PropTypes from 'prop-types'; 
+import { useEffect, useRef, useState } from 'react'
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from '@tanstack/react-table'
+import PropTypes from 'prop-types';
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
-const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) => {
+const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue, allowedColumns }) => {
 
-  const [sorting, setSorting] = useState([])  
+  const [sorting, setSorting] = useState([])
   const [filtering, setFiltering] = useState("")
 
   const table = useReactTable({
@@ -13,17 +13,17 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
     data: data,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(), 
+    getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       globalFilter: filtering
     },
     onSortingChange: setSorting,
-    onGlobalFilterChange: setFiltering,
-  }) 
+    onGlobalFilterChange: setFiltering
+  })
 
-  const handleClick = handleCellClick || (() => {});
+  const handleClick = handleCellClick || (() => { });
   const tableRef = useRef(null);
 
   // limpia el filtro al seleccionar afuera
@@ -33,9 +33,7 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
         setFiltering("");
       }
     };
-
     document.addEventListener('mousedown', handleOutsideClick);
-
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
@@ -43,9 +41,13 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
 
   // Aplicar filtro basado en el valor seleccionado
   useEffect(() => {
-    setFiltering(selectedValue.value || "");
+    if (selectedValue && selectedValue.value !== undefined) {
+      setFiltering(String(selectedValue.value));
+    } else {
+      setFiltering("");
+    }
   }, [selectedValue])
-  
+
   return (
     <div ref={tableRef}>
       <div className='table-options'>
@@ -59,14 +61,14 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
       <table>
         <thead>
           {
-            table.getHeaderGroups().map( headerGroup => (
+            table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {
-                  headerGroup.headers.map( header => (
-                    <th key={header.id} 
-                    onClick={header.column.getToggleSortingHandler()}>
+                  headerGroup.headers.map(header => (
+                    <th key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{asc: "⬆", desc: "⬇"}[header.column.getIsSorted() ?? null]}
+                      {{ asc: "⬆", desc: "⬇" }[header.column.getIsSorted() ?? null]}
                     </th>
                   ))
                 }
@@ -76,11 +78,11 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
         </thead>
         <tbody>
           {
-            table.getRowModel().rows.map( row => (
+            table.getRowModel().rows.map(row => (
               <tr key={row.id}>
                 {
-                  row.getVisibleCells().map( cell => (
-                    <td key={cell.id} onClick={() => handleClick(row, cell.column) }>
+                  row.getVisibleCells().map(cell => (
+                    <td key={cell.id} onClick={() => handleClick(row, cell.column)}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))
@@ -94,7 +96,7 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
         <button onClick={() => table.setPageIndex(0)}><BiChevronsLeft /> </button>
         <button onClick={() => table.previousPage()}> <BiChevronLeft />  </button>
         <button onClick={() => table.nextPage()}>     <BiChevronRight /> </button>
-        <button onClick={() => table.setPageIndex(table.getPageCount()-1)}><BiChevronsRight /></button>
+        <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}><BiChevronsRight /></button>
       </div>
     </div>
   )
@@ -103,6 +105,9 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue} ) 
 SimpleTablePaginada.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array.isRequired,
+  handleCellClick: PropTypes.func,
+  selectedValue: PropTypes.object,
+  allowedColumns: PropTypes.array,
 };
 
 export default SimpleTablePaginada

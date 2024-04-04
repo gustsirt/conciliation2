@@ -1,8 +1,11 @@
 import dayjs from 'dayjs';
 import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
 import FileUpload from '../Component/Tables/FileUpload';
+import { useState } from 'react';
 
 const Table01 = () => {
+  const [forceRefresh, setForceRefresh] = useState(false);
+
   const endpoint = 'api/files/01/';
   const columns = [
     {
@@ -55,12 +58,16 @@ const Table01 = () => {
     },
   ] 
 
+  const handleDataRefresh = () => {
+    setForceRefresh(!forceRefresh);
+  };
+
   return (
     <div>
-      <h1 className='title'>Tabla01</h1>
+      <h1 className='title'>Tabla01: Tarjeta</h1>
       <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}}/>
 
-      <FileUpload endpoint={"api/files/01/fromfile/"}/>
+      <FileUpload endpoint={"api/files/01/fromfile/"} onDataUploaded={handleDataRefresh}/>
     </div>
   )
 }

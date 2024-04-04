@@ -46,7 +46,7 @@ const Table02 = () => {
 
   return (
     <div>
-      <h1 className='title'>Tabla02</h1>
+      <h1 className='title'>Tabla02: Cupones</h1>
       <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}} />
       <FileUpload endpoint={"api/files/02/fromfile/"}/>
     </div>
