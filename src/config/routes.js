@@ -10,4 +10,4 @@ export default router
   .use('/api/files/01/', fileRoutes01)
   .use('/api/files/02/', fileRoutes02)
   .get('*', (req, res) => res.sendNotFound())
-  .use(errorHandler)
+  //.use(errorHandler)

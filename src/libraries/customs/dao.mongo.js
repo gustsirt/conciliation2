@@ -10,4 +10,5 @@ export default class DaoMongo {
   update      = async (filter, elementUpdate) => await this.model.findOneAndUpdate(filter, elementUpdate, {new: true})
   delete      = async (filter)                => await this.model.findOneAndDelete(filter, {new: true})
   exists      = async (filter)                => !!(await this.getBy(filter));
+  getUniquesValues = async (field) => await this.model.distinct(field);
 }

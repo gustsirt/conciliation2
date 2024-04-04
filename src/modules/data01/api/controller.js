@@ -29,4 +29,16 @@ export default class Data01Controller extends CustomController {
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
+  getUniqueValue = async (req, res) => {
+    const { field } = req.params;
+    const fieldAllowed = ['service', 'flag', 'business_number']
+
+    try {
+      const uniqueValues = await this.service.getUniquesValues(field);
+      res.sendSuccess(uniqueValues);
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request")
+    }
+  }
+  getPayment_Month = async (req, res) => {}
 } 

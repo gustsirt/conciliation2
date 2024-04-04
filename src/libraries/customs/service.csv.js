@@ -16,7 +16,9 @@ class CustomServiceCsv extends CustomService {
   // getBy       = async (filter)             => await this.dao.getBy      (filter)
   // update      = async (eid, elementUpdate) => await this.dao.update     ({_id: eid}, elementUpdate)
   // delete      = async (filter)             => await this.dao.delete     (filter)
-  // exists      = async (filter)             => await this.dao.exists(filter)
+  // exists      = async (filter)             => await this.dao.exists     (filter)
+  // getUniquesValues = async (field)         => await this.dao.distinct   (field);
+
 
   // Devuelve un objeto a partir de un file.buffer (multer) con un DTO
   fileToObject = async (file, oneColumn, noInclude, user) => {

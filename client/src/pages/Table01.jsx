@@ -1,10 +1,12 @@
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
 import FileUpload from '../Component/Tables/FileUpload';
-import { useState } from 'react';
+import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
+import { ContextFiles } from '../Context/ContextFiles.jsx';
 
 const Table01 = () => {
-  const [forceRefresh, setForceRefresh] = useState(false);
+  const [ forceRefresh, setForceRefresh ] = useState(false);
+  const { filter01, setFilter01 } = useContext(ContextFiles)
 
   const endpoint = 'api/files/01/';
   const columns = [
@@ -57,6 +59,10 @@ const Table01 = () => {
       format: 'date',
     },
   ] 
+
+  useEffect(()=>{
+    
+  },[filter01])
 
   const handleDataRefresh = () => {
     setForceRefresh(!forceRefresh);

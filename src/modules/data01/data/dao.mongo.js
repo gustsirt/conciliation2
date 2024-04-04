@@ -6,5 +6,6 @@ export default class Data01DaoMongo extends DaoMongo {
     super(data)
   }
   createMany  = async (newElements) => await this.model.insertMany(newElements)
+  
 }
 
