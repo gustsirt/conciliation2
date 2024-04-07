@@ -3,19 +3,21 @@ import SimpleTablePaginada from './SimpleTablePaginada.jsx'
 import useFetchService from '../../hooks/useFetchService.jsx'
 import PropTypes from 'prop-types';
 import './initiatetablesimple.scss';
+import FilterSelectors from './FilterSelectors.jsx';
 
 
-const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue, allowedColumns }) => {
-  const { loading, fetchData} = useFetchService();
+const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue, filters, filter, setFilter }) => {
+  const { loading, fetchData } = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
-  
+
   // Carga los datos de la tabla
-  useEffect( () => {
-    async function fetchDataAndSetDataTable () {
+  useEffect(() => {
+    let filterstring = objToQueryString(filter)
+    async function fetchDataAndSetDataTable() {
       try {
-        const resp = await fetchData(endpoint);
+        const resp = await fetchData(endpoint+filterstring);
         if (!resp.isError) {
           setDataTable(resp.data);
           setDataLoaded(false);
@@ -30,8 +32,30 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
     if (!dataLoaded) {
       fetchDataAndSetDataTable();
     }
-  }, [endpoint, dataLoaded]);
+  }, [filter, endpoint, dataLoaded]);
 
+  function objToQueryString(obj) {
+    if (Object.keys(obj).length === 0) {
+      return '';
+    }
+
+    const keyValuePairs = [];
+    
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key];
+        if (Array.isArray(value)) {
+          value.forEach(val => {
+            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+          });
+        } else {
+          keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+        }
+      }
+    }
+
+    return '?' + keyValuePairs.join('&');
+  }
 
   return (
     <div className="table-container">
@@ -40,7 +64,14 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-        <SimpleTablePaginada data={dataTable} columns={columns} handleCellClick={handleCellClick} selectedValue={selectedValue} allowedColumns={allowedColumns}/>
+        <>
+          <FilterSelectors endpoint={endpoint} filters={filters} filter={filter} setFilter={setFilter}/>
+          <SimpleTablePaginada
+            data={dataTable}
+            columns={columns}
+            handleCellClick={handleCellClick}
+            selectedValue={selectedValue} />
+        </>
       )}
     </div>
   )

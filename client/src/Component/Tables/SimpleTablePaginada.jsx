@@ -3,7 +3,7 @@ import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getS
 import PropTypes from 'prop-types';
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
-const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue, allowedColumns }) => {
+const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) => {
 
   const [sorting, setSorting] = useState([])
   const [filtering, setFiltering] = useState("")
@@ -107,7 +107,6 @@ SimpleTablePaginada.propTypes = {
   columns: PropTypes.array.isRequired,
   handleCellClick: PropTypes.func,
   selectedValue: PropTypes.object,
-  allowedColumns: PropTypes.array,
 };
 
 export default SimpleTablePaginada

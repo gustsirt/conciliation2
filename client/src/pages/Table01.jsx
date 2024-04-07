@@ -7,6 +7,7 @@ import { ContextFiles } from '../Context/ContextFiles.jsx';
 const Table01 = () => {
   const [ forceRefresh, setForceRefresh ] = useState(false);
   const { filter01, setFilter01 } = useContext(ContextFiles)
+  const filters01 = ['service', 'flag', 'business_number', 'payment_month']
 
   const endpoint = 'api/files/01/';
   const columns = [
@@ -60,10 +61,6 @@ const Table01 = () => {
     },
   ] 
 
-  useEffect(()=>{
-    
-  },[filter01])
-
   const handleDataRefresh = () => {
     setForceRefresh(!forceRefresh);
   };
@@ -71,7 +68,7 @@ const Table01 = () => {
   return (
     <div>
       <h1 className='title'>Tabla01: Tarjeta</h1>
-      <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}}/>
+      <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}} filters={filters01} filter={filter01} setFilter={setFilter01}/>
 
       <FileUpload endpoint={"api/files/01/fromfile/"} onDataUploaded={handleDataRefresh}/>
     </div>

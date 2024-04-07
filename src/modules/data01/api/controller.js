@@ -3,7 +3,7 @@ import data01Service from "../logic/service.js";
 
 export default class Data01Controller extends CustomController {
   constructor() {
-    super(data01Service, ['service', 'flag', 'business_number']);
+    super(data01Service, ['service', 'flag', 'business_number', 'payment_month']);
   }
 
   createfromFile = async (req, res) => {
@@ -34,6 +34,21 @@ export default class Data01Controller extends CustomController {
     try {
       const months = await this.service.getMonths( datefield );
       res.sendSuccessOrNotFound(months);
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+
+  get = async (req, res) => {
+    const {business_number, flag, payment_month} = req.query
+    const filter = {}
+    if( business_number ) filter["business_number"] = business_number;
+    if( flag ) filter["flag"] = flag;
+    if( payment_month ) filter["payment_month"] = payment_month;
+    console.log(filter);
+    try {
+      const element = await this.service.get(filter);
+      res.sendSuccessOrNotFound(element);
     } catch (error) {
       res.sendCatchError(error, "An error occurred in the API request");
     }

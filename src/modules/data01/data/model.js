@@ -9,9 +9,10 @@ const fileSchema = Schema({
   number:             { type: Number,  required: true }, // comprobante
   last_4_number:      { type: Number,  required: true },
   installment:        { type: Number,  required: true }, // cuotas
-  presentation_date:  { type: Date,    required: true,   default: Date() },
-  origin_date:        { type: Date,    required: true,   default: Date() },
-  payment_date:       { type: Date,    required: true,   default: Date() },
+  presentation_date:  { type: Date,    required: true },
+  origin_date:        { type: Date,    required: true },
+  payment_date:       { type: Date,    required: true },
+  payment_month:      { type: Number,  required: true },
   description:        { type: String,  required: true },
   amount:             { type: Number,  required: true },
   sign:               { type: Number,  required: true }, // + = 1 y - = -1

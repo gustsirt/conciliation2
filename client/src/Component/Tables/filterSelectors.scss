@@ -1,0 +1,12 @@
+.filterSelectors{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+
+  .filterUnit{
+    .select {
+      width: auto;
+    }
+  }
+}

@@ -28,6 +28,7 @@ export default class TransformOriginData {
     this.presentation_date = dataFile.PRESENTACION ? parseDate(dataFile.PRESENTACION) : null;
     this.origin_date =       dataFile.COMPRA ? parseDate(dataFile.COMPRA) : null;
     this.payment_date =      dataFile.PAGO ? parseDate(dataFile.PAGO) : null;
+    this.payment_month =     this.payment_date.month() +1 ;
     this.description =       String(dataFile.DETALLE || '').trim();
     this.amount =            dataFile.MONTO_BRUTO ? Number(dataFile.MONTO_BRUTO.replace(",", ".")) : 0;
     this.sign =              Math.sign(this.amount) || 0;
