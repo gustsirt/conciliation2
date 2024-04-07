@@ -6,6 +6,8 @@ class Data01Service extends CustomServiceCsv {
   constructor () {
     super(new Data01DaoMongo, TransformOriginData)
   }
+
+  getMonths = async (field) => await this.dao.getMonths(field);
 }
 
 export default new Data01Service()
