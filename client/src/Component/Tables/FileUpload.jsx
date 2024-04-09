@@ -38,11 +38,11 @@ const FileUpload = ({endpoint, onDataUploaded}) => {
 
       onDataUploaded()
       setAlert('Archivo subido con éxito')
-      setTimeout(()=>{ setAlert("") },4000)
+      setTimeout(()=>{ setAlert("") },10000)
 
     } catch (error) {
       setAlert('Error al subir el archivo:'+ error)
-      setTimeout(()=>{ setAlert("") },4000)
+      setTimeout(()=>{ setAlert("") },10000)
     }
   };
 

@@ -19,6 +19,10 @@ const fileSchema = Schema({
   atCreated:          { type: Date,                      default: Date() },
   lastupdate:         { type: Date,    required: true,   default: Date() },
   userupdate:         { type: String,  required: true,   default: "Admin" },
+  idData02:           { type: Schema.Types.ObjectId, ref: 'data02'}, 
+  meetings:           Number,                            // Cantidad encontrada
+  comments:           String,                            // Comentarios
+  isClosed:           Boolean,                           // Campo Cerrado
 })
 
 export default model('data01', fileSchema)

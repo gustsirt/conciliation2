@@ -59,7 +59,7 @@ const Table02 = () => {
     <div>
       <h1 className='title'>Tabla02: Cupones</h1>
       <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}} filters={filters02} filter={filter02} setFilter={setFilter02}/>
-      <FileUpload endpoint={"api/files/02/fromfile/"}/>
+      <FileUpload endpoint={"api/files/02/fromfile/"}  onDataUploaded={handleDataRefresh}/>
     </div>
 
   )
