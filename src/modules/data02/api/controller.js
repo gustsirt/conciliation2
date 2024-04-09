@@ -3,7 +3,7 @@ import data02Service from "../logic/service.js";
 
 export default class Data01Controller extends CustomController {
   constructor() {
-    super(data02Service);
+    super(data02Service, ['flag']);
   }
 
   createfromFile = async (req, res) => {
@@ -23,6 +23,19 @@ export default class Data01Controller extends CustomController {
       } else {
         res.sendNoContent([], 'No se agregaron nuevos datos');
       }
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+  get = async (req, res) => {
+    const {flag} = req.query
+
+    const filter = {}
+    if( flag ) filter["flag"] = flag;
+
+    try {
+      const element = await this.service.get(filter);
+      res.sendSuccessOrNotFound(element);
     } catch (error) {
       res.sendCatchError(error, "An error occurred in the API request");
     }

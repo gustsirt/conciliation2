@@ -7,7 +7,6 @@ const FilterSelectors_Unit = ({endpoint, field, filter, setFilter}) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(filter[field]);
     async function fetchData() {
       try {
         const resp = await fetchUniqueData(endpoint, field);

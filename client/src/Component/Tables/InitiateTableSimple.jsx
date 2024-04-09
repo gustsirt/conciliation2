@@ -65,7 +65,7 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
         <p>Error: {error.message}</p>
       ) : (
         <>
-          <FilterSelectors endpoint={endpoint} filters={filters} filter={filter} setFilter={setFilter}/>
+          {!filters ? null : <FilterSelectors endpoint={endpoint} filters={filters} filter={filter} setFilter={setFilter}/>}
           <SimpleTablePaginada
             data={dataTable}
             columns={columns}

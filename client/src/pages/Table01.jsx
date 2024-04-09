@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { useContext, useEffect, useState } from 'react';
 import FileUpload from '../Component/Tables/FileUpload';
 import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
 import { ContextFiles } from '../Context/ContextFiles.jsx';
@@ -8,14 +8,15 @@ const Table01 = () => {
   const [ forceRefresh, setForceRefresh ] = useState(false);
   const { filter01, setFilter01 } = useContext(ContextFiles)
   const filters01 = ['service', 'flag', 'business_number', 'payment_month']
-
+  
   const endpoint = 'api/files/01/';
   const columns = [
     {
       header: 'ID',
       accessorKey: '_id',
       format: 'text',
-      hidden: true,
+      // hidden: true,
+      cell: ({ row }) => row.original._id ? row.original._id.slice(-5) : '',
     },
     { 
       header: 'Servicio',

@@ -41,11 +41,12 @@ export default class Data01Controller extends CustomController {
 
   get = async (req, res) => {
     const {business_number, flag, payment_month} = req.query
+    
     const filter = {}
     if( business_number ) filter["business_number"] = business_number;
     if( flag ) filter["flag"] = flag;
     if( payment_month ) filter["payment_month"] = payment_month;
-    console.log(filter);
+
     try {
       const element = await this.service.get(filter);
       res.sendSuccessOrNotFound(element);
