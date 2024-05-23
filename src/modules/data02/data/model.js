@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-const fileSchema = Schema({
+export const fileSchema = Schema({
   flag:               { type: String,  required: true }, // visa
   type:               { type: String,  required: true }, // c credito o d debito
   batch:              { type: Number,  required: true }, // lote
