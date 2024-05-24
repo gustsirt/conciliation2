@@ -30,3 +30,15 @@ class WorkingService {
 }
 
 export default WorkingService
+
+/*
+{"configObject": {
+    "filter1": {
+        "flag": "visa",
+        "payment_month": 3
+    },
+    "filter2": {
+        "flag": "visa"
+    }
+}}
+*/
