@@ -1,8 +1,8 @@
 import { Router } from "express";
-import GatewayController from "./controller.js";
+import WorkController from "./controller.js";
 
 const router = Router();
-const uControl = new GatewayController()
+const uControl = new WorkController()
 
 //api/files/XX/
 export default router

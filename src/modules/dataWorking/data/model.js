@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
 const workingSchema = Schema({
-  filterT1: { type: Object, required: true },
-  filterT2: { type: Object, required: true },
+  filterT1: { type: Object },
+  filterT2: { type: Object },
   comments:   String,                            // Comentarios
   isClosed:   Boolean,  
 })
