@@ -6,7 +6,7 @@ import './initiatetablesimple.scss';
 import FilterSelectors from './FilterSelectors.jsx';
 
 
-const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue, filters, filter, setFilter }) => {
+const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue, filters, filter, setFilter, refresh  }) => {
   const { loading, fetchData } = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
     if (!dataLoaded) {
       fetchDataAndSetDataTable();
     }
-  }, [filter, endpoint, dataLoaded]);
+  }, [filter, endpoint, dataLoaded, refresh ]);
 
   function objToQueryString(obj) {
     if (Object.keys(obj).length === 0) {

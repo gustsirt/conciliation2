@@ -10,7 +10,7 @@ const FilesProvider = ({children}) => {
   const [filter02 , setFilter02] = useState(localfilter02)
 
   useEffect(() => {localStorage.setItem('filter01', JSON.stringify(filter01)) }, [filter01])
-  useEffect(() => {localStorage.setItem('filter02', JSON.stringify(filter01)) }, [filter02])
+  useEffect(() => {localStorage.setItem('filter02', JSON.stringify(filter02)) }, [filter02])
 
   return (
     <ContextFiles.Provider value={{ filter01, setFilter01, filter02, setFilter02 }}>

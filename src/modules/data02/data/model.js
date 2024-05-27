@@ -15,9 +15,9 @@ export const fileSchema = Schema({
   atCreated:          { type: Date,                      default: Date() },
   lastupdate:         { type: Date,    required: true,   default: Date() },
   userupdate:         { type: String,  required: true,   default: "Admin" },
-  idData01:           { type: Schema.Types.ObjectId, ref: 'data01'}, // id Tabla comparada
+  idMeeting:          { type: Schema.Types.ObjectId, ref: 'data01'}, // id Tabla comparada
   meetings:           Number,                            // Cantidad encontrada
-  comments:           String,                            // Comentarios
+  error:              Number,                            // tipo de error
   isClosed:           Boolean,                           // Campo Cerrado
 })
 

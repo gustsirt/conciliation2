@@ -66,6 +66,7 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
                 {
                   headerGroup.headers.map(header => (
                     <th key={header.id}
+                      className={header.column.columnDef.className}
                       onClick={header.column.getToggleSortingHandler()}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{ asc: "⬆", desc: "⬇" }[header.column.getIsSorted() ?? null]}
@@ -82,7 +83,9 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
               <tr key={row.id}>
                 {
                   row.getVisibleCells().map(cell => (
-                    <td key={cell.id} onClick={() => handleClick(row, cell.column)}>
+                    <td key={cell.id}
+                      className={cell.column.columnDef.className} 
+                      onClick={() => handleClick(row, cell.column)}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))
