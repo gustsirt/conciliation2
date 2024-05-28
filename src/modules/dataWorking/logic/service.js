@@ -8,18 +8,14 @@ class WorkingService {
   }
 
   link = async (configObject) => {
-    console.log("configObject: ",configObject);
-    
     // obtiene los datos segun los filtros
     this.data01 = await this.data01Service.get(configObject.filter01)
-    console.log("data 01: ", "this.data01");
-
     this.data02 = await this.data02Service.get(configObject.filter02)
-    console.log("data 02: ", "this.data02");
+
+    const matchedOperations = {};
 
     // realiza la conciliación
     for (let ope of this.data01) {
-      console.log(ope._id);
       let cc = 0
       let matchingId = null;
 
@@ -27,13 +23,11 @@ class WorkingService {
         let equal = true;
 
         for (let val of this.verif1) {
-          // Handle date objects
           if (typeof ope[val] == "object" && ope[val] !== null) {
             if (new Date(ope[val]).getTime() !== new Date(ope2[val]).getTime()) {
               equal = false;
               break;
             }
-          // Handle others objects
           } else if (ope[val] !== ope2[val]) {
             equal = false
             break;
@@ -44,33 +38,47 @@ class WorkingService {
         if (equal) {
           cc += 1
           matchingId = ope2._id;
-          console.log("  ",ope2._id, " - cc: ",cc);
+
+          if (!matchedOperations[ope2._id]) {
+            matchedOperations[ope2._id] = [];
+          }
+          matchedOperations[ope2._id].push(ope._id);
         }
       } // end ope2
 
-      // Asigna a ope resultado
+      // Actualiza datos ope1
       cc === 1 ? ope.idMeeting = matchingId : ope.idMeeting = null;
       ope.meetings = cc;
 
-      // Guarda lso datos
-      await this.data01Service.update(ope._id, {
-        idMeeting: ope.idMeeting,
-        meetings: ope.meetings
-      });
-
     } // end ope
-    return {configObject, data1: this.data01, data2: "this.data02"}
-  }
 
-  // para cruzar todo
-  // 1 debo recibir los filtros OK
-  // 2 se obtiene las tablas a cruzar OK
-  // 3 se inicia con la tabla que manda (y se la recorre entera) OK
-  // 4 se puede poner un valor de referencia
-  // 5 se prueba con la segunda tabla
-  // 6 se realiza el cruce con un ejemplo
-  // 7 se prueba en pocos
-  // 8 prueba general
+     // Prepara las actualizaciones para data01 y data02
+    const data01Updates = this.data01.map(ope => ({
+      _id: ope._id,
+      idMeeting: ope.idMeeting,
+      meetings: ope.meetings
+    }));
+
+    const data02Updates = this.data02.map(ope2 => {
+      const matchingOpeIds = matchedOperations[ope2._id] || [];
+      const cc = matchingOpeIds.length;
+      const matchingId = cc === 1 ? matchingOpeIds[0] : null;
+
+      return {
+        _id: ope2._id,
+        idMeeting: matchingId,
+        meetings: cc
+      };
+    });
+
+    // Ejecuta las actualizaciones en paralelo
+    await Promise.all([
+      ...data01Updates.map(update => this.data01Service.update(update._id, update)),
+      ...data02Updates.map(update => this.data02Service.update(update._id, update))
+    ]);
+
+    return { configObject, data1: this.data01, data2: this.data02 };
+  }
 }
 
 export default WorkingService
