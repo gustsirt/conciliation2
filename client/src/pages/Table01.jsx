@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { useContext, useEffect, useState } from 'react';
-import FileUpload from '../Component/Tables/FileUpload';
-import InitiateTableSimple from '../Component/Tables/InitiateTableSimple';
 import { ContextFiles } from '../Context/ContextFiles.jsx';
+import FileUpload from '../Component/FileUpload/FileUpload.jsx';
+import TableBaseInitWithFilter from '../Component/Tables/Table00.init.withfilters.jsx';
 
 const Table01 = () => {
   const [ forceRefresh, setForceRefresh ] = useState(false);
@@ -69,7 +69,7 @@ const Table01 = () => {
   return (
     <div>
       <h1 className='title'>Tabla01: Tarjeta</h1>
-      <InitiateTableSimple endpoint={endpoint} columns={columns} selectedValue={{value: ""}} filters={filters01} filter={filter01} setFilter={setFilter01}/>
+      <TableBaseInitWithFilter endpoint={endpoint} columns={columns} filters={filters01} filter={filter01} setFilter={setFilter01}/>
 
       <FileUpload endpoint={"api/files/01/fromfile/"} onDataUploaded={handleDataRefresh}/>
     </div>

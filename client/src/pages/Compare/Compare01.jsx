@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
-import InitiateTableSimple from '../../Component/Tables/InitiateTableSimple';
 import './compare.scss';
 import useTableSimple from '../../Component/Tables/hooks/useTableSimple';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ContextFiles } from '../../Context/ContextFiles';
 import useFetchService from '../../hooks/useFetchService';
+import Table01Init from '../../Component/Tables/Table01.init';
 
 const Compare01 = () => {
   const { filter01, filter02 } = useContext(ContextFiles)
-  const { postData } = useFetchService();
+  const { postData, deleteData } = useFetchService();
   const [linking, setLinking ] = useState(false)
   const [refresh, setRefresh] = useState(false);
 
@@ -27,7 +27,9 @@ const Compare01 = () => {
     { header: 'Monto',        accessorKey: 'amount',          format: 'currency',},
     { header: 'F. Pago',      accessorKey: 'payment_date',
       cell: (info) => dayjs(info.getValue()).format('DD/MM'), format: 'date',   },
-    { header: 'Casos',        accessorKey: 'meetings',        format: 'number', className: 'meeting'},
+    { header: 'Casos',        accessorKey: 'meetings',        format: 'number', className: 'meeting',
+      meta:   { filterVariant: 'select', },
+    },
     { header: 'Id2',          accessorKey: 'idMeeting',        format: 'text',  className: 'meeting',
       cell: ({ row }) => row.original.idMeeting ? row.original.idMeeting.slice(-5) : '',    },
     { header: 'Error',        accessorKey: 'error',           format: 'number', className: 'meeting'},
@@ -64,29 +66,40 @@ const Compare01 = () => {
   const handleLink = async () => {
     setLinking(true);
     const body = {configObject: {filter01, filter02 }};
-    console.log(body);
-    await postData('api/files/XX/link', body);
+    // console.log(body);
+    await postData('api/link/mark', body);
     setLinking(false);
     setRefresh(!refresh);
   }
-  
-  // useEffect(() => {
-  //   console.log("table1: ",selectedValue1);
-  //   console.log("table2: ",selectedValue2);
-  // }, [selectedValue1, selectedValue2])
+  const handleClean = async () => {
+    setLinking(true);
+    const body = {configObject: {filter01, filter02 }};
+    // console.log(body);
+    await deleteData('api/link/mark', body);
+    setLinking(false);
+    setRefresh(!refresh);
+  }
 
   return (
     <div>
       <h1 className='title'>Comparación</h1>
-      <button button onClick={() => {handleLink()}}> - Linkear Tablas -</button> <p>{ linking ? "Procesando info" : ""}</p>
+      <div className='button-actions'>
+        { linking
+          ? (<p>Procesando info...</p>)
+          : (<>
+            <button onClick={() => {handleLink()}}> - Linkear Tablas -</button>
+            <button onClick={() => {handleClean()}}> - Borrar Marcas -</button>
+          </>)
+        }
+      </div>
       <div className='tables-container'>
         <div>
           <h2 className='title-table'>Tabla 01 - tarjeta</h2>
-          <InitiateTableSimple endpoint={endpoint1} columns={columns1} handleCellClick={logcell1} selectedValue={selectedValue2} filter={filter01} refresh={refresh}/>
+          <Table01Init endpoint={endpoint1} columns={columns1} handleCellClick={logcell1} selectedValue={selectedValue2} filter={filter01} refresh={refresh}/>
         </div>
         <div>
           <h2 className='title-table'>Tabla 02 - cupones</h2>
-          <InitiateTableSimple endpoint={endpoint2} columns={columns2} handleCellClick={logcell2} selectedValue={selectedValue1} filter={filter02} refresh={refresh}/>
+          <Table01Init endpoint={endpoint2} columns={columns2} handleCellClick={logcell2} selectedValue={selectedValue1} filter={filter02} refresh={refresh}/>
         </div>
       </div>
     </div>

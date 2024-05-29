@@ -3,7 +3,7 @@ import data02Service from "../logic/service.js";
 
 export default class Data01Controller extends CustomController {
   constructor() {
-    super(data02Service, ['flag']);
+    super(data02Service, ['flag', 'meetings']);
   }
 
   createfromFile = async (req, res) => {

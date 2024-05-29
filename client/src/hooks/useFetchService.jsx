@@ -56,12 +56,13 @@ const useFetchService = () => {
     }
   };
 
-  const deleteData = async (endpoint) => {
+  const deleteData = async (endpoint, body = {}) => {
     try {
       setLoading(true);
       const response = await fetch(`${baseUrl}/${endpoint}`, {
         method: 'DELETE',
         headers,
+        body: JSON.stringify(body),
       });
       if(response.status >= 400) throw Error;
       setLoading(false);

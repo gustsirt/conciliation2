@@ -1,26 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from '@tanstack/react-table'
-import PropTypes from 'prop-types';
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
-const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) => {
-
+const TableWithGlobalFilter = ({ data, columns, handleCellClick, selectedValue }) => {
   const [sorting, setSorting] = useState([])
-  const [filtering, setFiltering] = useState("")
+  const [globalFilter, setGlobalFilter] = useState("")
 
   const table = useReactTable({
-    columns: columns.filter(column => !column.hidden),
     data: data,
+    columns: columns.filter(column => !column.hidden),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      globalFilter: filtering
+      globalFilter
     },
     onSortingChange: setSorting,
-    onGlobalFilterChange: setFiltering
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: 'includesString'
   })
 
   const handleClick = handleCellClick || (() => { });
@@ -30,7 +29,7 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (tableRef.current && !tableRef.current.contains(e.target)) {
-        setFiltering("");
+        setGlobalFilter("");
       }
     };
     document.addEventListener('mousedown', handleOutsideClick);
@@ -42,9 +41,9 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
   // Aplicar filtro basado en el valor seleccionado
   useEffect(() => {
     if (selectedValue && selectedValue.value !== undefined) {
-      setFiltering(String(selectedValue.value));
+      setGlobalFilter(String(selectedValue.value));
     } else {
-      setFiltering("");
+      setGlobalFilter("");
     }
   }, [selectedValue])
 
@@ -53,8 +52,8 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
       <div className='table-options'>
         <input
           type="text"
-          value={filtering}
-          onChange={e => setFiltering(e.target.value)}
+          value={globalFilter}
+          onChange={e => setGlobalFilter(e.target.value)}
           placeholder='Filtrar'
         />
       </div>
@@ -84,7 +83,7 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
                 {
                   row.getVisibleCells().map(cell => (
                     <td key={cell.id}
-                      className={cell.column.columnDef.className} 
+                      className={cell.column.columnDef.className}
                       onClick={() => handleClick(row, cell.column)}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
@@ -105,11 +104,4 @@ const SimpleTablePaginada = ({ data, columns, handleCellClick, selectedValue }) 
   )
 }
 
-SimpleTablePaginada.propTypes = {
-  data: PropTypes.array,
-  columns: PropTypes.array.isRequired,
-  handleCellClick: PropTypes.func,
-  selectedValue: PropTypes.object,
-};
-
-export default SimpleTablePaginada
+export default TableWithGlobalFilter

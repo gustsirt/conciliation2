@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import SimpleTablePaginada from './SimpleTablePaginada.jsx'
 import useFetchService from '../../hooks/useFetchService.jsx'
-import PropTypes from 'prop-types';
-import './initiatetablesimple.scss';
+import './generalStyles.scss';
 import FilterSelectors from './FilterSelectors.jsx';
+import TableBase from './Table00.Base.jsx';
+import { objToQueryString } from './auxFunction.jsx';
 
-
-const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue, filters, filter, setFilter, refresh  }) => {
+const TableBaseInitWithFilter = ({ endpoint, columns, filters, filter, setFilter  }) => {
   const { loading, fetchData } = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
@@ -32,30 +31,7 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
     if (!dataLoaded) {
       fetchDataAndSetDataTable();
     }
-  }, [filter, endpoint, dataLoaded, refresh ]);
-
-  function objToQueryString(obj) {
-    if (Object.keys(obj).length === 0) {
-      return '';
-    }
-
-    const keyValuePairs = [];
-    
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const value = obj[key];
-        if (Array.isArray(value)) {
-          value.forEach(val => {
-            keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
-          });
-        } else {
-          keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-        }
-      }
-    }
-
-    return '?' + keyValuePairs.join('&');
-  }
+  }, [filter, endpoint, dataLoaded ]);
 
   return (
     <div className="table-container">
@@ -66,22 +42,13 @@ const InitiateTableSimple = ({ endpoint, columns, handleCellClick, selectedValue
       ) : (
         <>
           {!filters ? null : <FilterSelectors endpoint={endpoint} filters={filters} filter={filter} setFilter={setFilter}/>}
-          <SimpleTablePaginada
+          <TableBase
             data={dataTable}
-            columns={columns}
-            handleCellClick={handleCellClick}
-            selectedValue={selectedValue} />
+            columns={columns}/>
         </>
       )}
     </div>
   )
 }
 
-InitiateTableSimple.propTypes = {
-  endpoint: PropTypes.string,
-  columns: PropTypes.array.isRequired,
-  handleCellClick: PropTypes.func,
-  selectedValue: PropTypes.object,
-  allowedColumns: PropTypes.array,
-};
-export default InitiateTableSimple
+export default TableBaseInitWithFilter

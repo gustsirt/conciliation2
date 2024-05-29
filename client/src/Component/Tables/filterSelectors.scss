@@ -1,4 +1,9 @@
+@import "../../styles/variables";
+
+$filter-background: $clgt3; // transparent
+
 .filterSelectors{
+  background-color: $filter-background;
   width: 100%;
   display: flex;
   justify-content: space-between;

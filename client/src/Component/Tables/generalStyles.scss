@@ -6,6 +6,7 @@ $table-font: $fontH; // y botones
 $table-headercolor: $cgrey3;
 $table-hovercolor: $cgrey1;
 $table-border: $cgrey3;
+$table-background: $clgt5; // transparent
 $buton-color: $clgt1;
 $buton-hovercolor: $clgt2;
 $buton-fontcolor: $cwhite;
@@ -13,6 +14,7 @@ $buton-fontcolor: $cwhite;
 .table-container {
   font-family: $table-font;
   color: $table-colorfont;
+  background-color: $table-background;
 
   table {
     width: 100%;
