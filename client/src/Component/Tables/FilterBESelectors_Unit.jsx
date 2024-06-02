@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useFetchServiceSelect from '../../hooks/useFetchServiceSelect';
 
-const FilterSelectors_Unit = ({endpoint, field, filter, setFilter}) => {
+const FilterBESelectors_Unit = ({endpoint, field, filter, setFilter}) => {
   const { loading, fetchUniqueData } = useFetchServiceSelect();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -52,4 +52,4 @@ const FilterSelectors_Unit = ({endpoint, field, filter, setFilter}) => {
   )
 }
 
-export default FilterSelectors_Unit
+export default FilterBESelectors_Unit

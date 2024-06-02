@@ -6,14 +6,14 @@ const localfilter01 = JSON.parse(localStorage.getItem('filter01')) || {}
 const localfilter02 = JSON.parse(localStorage.getItem('filter02')) || {}
 
 const FilesProvider = ({children}) => {
-  const [filter01 , setFilter01] = useState(localfilter01)
-  const [filter02 , setFilter02] = useState(localfilter02)
+  const [backendFilter01 , setBackendFilter01] = useState(localfilter01)
+  const [backendFilter02 , setBackendFilter02] = useState(localfilter02)
 
-  useEffect(() => {localStorage.setItem('filter01', JSON.stringify(filter01)) }, [filter01])
-  useEffect(() => {localStorage.setItem('filter02', JSON.stringify(filter02)) }, [filter02])
+  useEffect(() => {localStorage.setItem('filter01', JSON.stringify(backendFilter01)) }, [backendFilter01])
+  useEffect(() => {localStorage.setItem('filter02', JSON.stringify(backendFilter02)) }, [backendFilter02])
 
   return (
-    <ContextFiles.Provider value={{ filter01, setFilter01, filter02, setFilter02 }}>
+    <ContextFiles.Provider value={{ backendFilter01, setBackendFilter01, backendFilter02, setBackendFilter02 }}>
       {children}
     </ContextFiles.Provider>
   )

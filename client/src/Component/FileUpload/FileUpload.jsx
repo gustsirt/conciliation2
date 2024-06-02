@@ -47,7 +47,7 @@ const FileUpload = ({endpoint, onDataUploaded}) => {
   };
 
   return (
-    <div className={loading ? 'loading-cursor' : ''}>
+    <div className={'fileUpload '+(loading ? 'loading-cursor' : '')}>
       <h2>Subir Archivo</h2>
       <form onSubmit={handleSubmit} className={loading ? 'loading-cursor' : ''}>
         <input type="file" onChange={handleChange} />

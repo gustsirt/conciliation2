@@ -10,6 +10,7 @@ $table-background: $clgt5; // transparent
 $buton-color: $clgt1;
 $buton-hovercolor: $clgt2;
 $buton-fontcolor: $cwhite;
+$text-alternative: $cdrk2;
 
 .table-container {
   font-family: $table-font;
@@ -50,26 +51,47 @@ $buton-fontcolor: $cwhite;
     justify-content: flex-start;
     margin-bottom: 0.5em;
   }
-
   .table-footer{
     display: flex;
-    justify-content: end;
-    button {
-      height: 1.3em;
-      width: 1.3em;
-      background-color: $buton-color;
-      font-size: 1.4em;
-      color: $buton-fontcolor;
-      border: none;
-      padding: 4px;
-      margin: 4px;
-      cursor: pointer;
-      font-family: $table-font;
-      border-radius: 0.5em; // Bordes redondeados para los botones
-      transition: background-color 0.3s; // Transición suave del color de fondo al pasar el cursor
+    justify-content: space-between;
+    align-items: center;
+
+    .pag-size{
+      display: flex;
+      gap: 0.5em;
+      color: $text-alternative;
+    }
+    .pagination {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+        p {
+          color: $text-alternative;
+        }
+
+      button {
+        height: 1.3em;
+        width: 1.3em;
+        background-color: $buton-color;
+        font-size: 1.4em;
+        color: $buton-fontcolor;
+        border: none;
+        padding: 4px;
+        margin: 4px;
+        cursor: pointer;
+        font-family: $table-font;
+        border-radius: 0.5em; // Bordes redondeados para los botones
+        transition: background-color 0.3s; // Transición suave del color de fondo al pasar el cursor
+    
+        &:hover {
+          background-color: $buton-hovercolor;
+        }
   
-      &:hover {
-        background-color: $buton-hovercolor;
+        &:disabled {
+          background-color: $table-background;
+          color: $buton-color;
+          cursor: not-allowed;
+        }
       }
     }
   }

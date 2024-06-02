@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import useFetchService from '../../hooks/useFetchService.jsx'
 import './generalStyles.scss';
-import FilterSelectors from './FilterSelectors.jsx';
-import TableBase from './Table00.Base.jsx';
+import FilterBESelectors from './FilterBESelectors.jsx';
+import TableBase from './TableDef.jsx';
 import { objToQueryString } from './auxFunction.jsx';
 
-const TableBaseInitWithFilter = ({ endpoint, columns, filters, filter, setFilter  }) => {
+const TableInitWithBackEndFilter = ({ endpointData, columns, filters, filter, setFilter  }) => {
   const { loading, fetchData } = useFetchService();
   const [dataTable, setDataTable] = useState([]);
   const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ const TableBaseInitWithFilter = ({ endpoint, columns, filters, filter, setFilter
     let filterstring = objToQueryString(filter)
     async function fetchDataAndSetDataTable() {
       try {
-        const resp = await fetchData(endpoint+filterstring);
+        const resp = await fetchData(endpointData+filterstring);
         if (!resp.isError) {
           setDataTable(resp.data);
           setDataLoaded(false);
@@ -44,11 +44,13 @@ const TableBaseInitWithFilter = ({ endpoint, columns, filters, filter, setFilter
           {!filters ? null : <FilterSelectors endpoint={endpoint} filters={filters} filter={filter} setFilter={setFilter}/>}
           <TableBase
             data={dataTable}
-            columns={columns}/>
+            columns={columns}
+            options={{paginated: true}}
+            />
         </>
       )}
     </div>
   )
 }
 
-export default TableBaseInitWithFilter
+export default TableInitWithBackEndFilter
