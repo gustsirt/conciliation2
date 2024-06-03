@@ -3,7 +3,7 @@ import useFetchService from '../../hooks/useFetchService.jsx'
 import './generalStyles.scss';
 import FilterBESelectors from './FilterBESelectors.jsx';
 import TableBase from './TableDef.jsx';
-import { objToQueryString } from './auxFunction.jsx';
+import { objToQueryString } from './Helper/objToQueryString.jsx';
 
 const TableInit = ({ backend, tableOptions }) => {
   const { loading, fetchData } = useFetchService();

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel, } from '@tanstack/react-table'
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
@@ -16,6 +16,10 @@ const TableBase = ({ data, options}) => {
   const isGlobalFiltered = allow && allow.globalFilter === true;
   const [globalFilter, setGlobalFilter] = useState("")
   
+  const isSelection = allow && allow.selector === true;
+  const rowSelection = options.rowSelection || [];
+  const setRowSelection = options.setRowSelection || undefined;
+
   const handleClick = handleCellClick || (() => { });
   const tableRef = useRef(null); // se usa para limpiar filtro global
 
@@ -29,10 +33,16 @@ const TableBase = ({ data, options}) => {
     state: {
       sorting: sorting,
       globalFilter: globalFilter,
+      rowSelection: rowSelection,
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: 'includesString',
+    onRowSelectionChange: (newRowSelection) => {
+      const selectedRows = table.getSelectedRowModel().flatRows.map(row => row.original);
+      setRowSelection(selectedRows);
+    },
+    enableRowSelection: true,
   })
 
   // limpia el filtro global al seleccionar afuera
@@ -138,6 +148,7 @@ const TableBase = ({ data, options}) => {
           </>)
         }
       </div>
+      {/* {console.log(table.getSelectedRowModel().flatRows)} */}
     </div>
   )
 }

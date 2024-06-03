@@ -5,6 +5,8 @@ import { useContext, useState } from 'react';
 import { ContextFiles } from '../../Context/ContextFiles';
 import useFetchService from '../../hooks/useFetchService';
 import TableInit from '../../Component/Tables/TableInit';
+import IndeterminateCheckbox from '../../Component/Tables/Helper/IndeterminateCheckBox.jsx';
+import { useEffect } from 'react';
 
 const Compare01 = () => {
   const { backendFilter01, backendFilter02} = useContext(ContextFiles)
@@ -19,6 +21,9 @@ const Compare01 = () => {
 
   const [selectedValue1, setSelectedValue1] = useState({});
   const [selectedValue2, setSelectedValue2] = useState({}); 
+  const [rowSelection1, setRowSelection1] = useState([])
+  const [rowSelection2, setRowSelection2] = useState([])
+
   // configuracion tabla 01 ------------
   const table01 = {
     backend: {
@@ -31,8 +36,11 @@ const Compare01 = () => {
         paginated: true,
         sort: true,
         globalFilter: true,
+        selector: true,
       },
       handleCellClick: logcell1,
+      rowSelection: rowSelection1,
+      setRowSelection: setRowSelection1,
       globalFilterValue: selectedValue2,
       columns: [
         { 
@@ -91,8 +99,11 @@ const Compare01 = () => {
         paginated: true,
         sort: true,
         globalFilter: true,
+        selector: true,
       },
       handleCellClick: logcell2,
+      rowSelection: rowSelection2,
+      setRowSelection: setRowSelection2,
       globalFilterValue: selectedValue1,
       columns: [
         { 
@@ -152,6 +163,11 @@ const Compare01 = () => {
     setLinking(false);
     setRefresh(!refresh);
   }
+
+  useEffect(()=>{
+    console.log("tabla 1: ",rowSelection1);
+    console.log("tabla 2: ",rowSelection2);
+  },[rowSelection1, rowSelection2])
 
   return (
     <div>
