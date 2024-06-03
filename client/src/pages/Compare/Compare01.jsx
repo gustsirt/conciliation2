@@ -4,7 +4,6 @@ import useTableSimple from '../../Component/Tables/hooks/useTableSimple';
 import { useContext, useState } from 'react';
 import { ContextFiles } from '../../Context/ContextFiles';
 import useFetchService from '../../hooks/useFetchService';
-import Table01Init from '../../Component/Tables/Table01.init';
 import TableInit from '../../Component/Tables/TableInit';
 
 const Compare01 = () => {
@@ -15,8 +14,8 @@ const Compare01 = () => {
 
   // configura posibles valores tomados para filtrar ------------
   const {getValuesLimited} = useTableSimple(["flag", "origin_date", "batch", "number", "amount"])
-  const logcell1 = async (row, column) => await setSelectedValue1(getValuesLimited(row, column))
-  const logcell2 = async (row, column) => await setSelectedValue2(getValuesLimited(row, column))
+  const logcell1 = async (row, column) => setSelectedValue1(getValuesLimited(row, column))
+  const logcell2 = async (row, column) => setSelectedValue2(getValuesLimited(row, column))
 
   const [selectedValue1, setSelectedValue1] = useState({});
   const [selectedValue2, setSelectedValue2] = useState({}); 
@@ -30,16 +29,17 @@ const Compare01 = () => {
     tableOptions: {
       allow: {
         paginated: true,
+        sort: true,
         globalFilter: true,
       },
       handleCellClick: logcell1,
       globalFilterValue: selectedValue2,
       columns: [
-        { header: 'ID',           accessorKey: '_id',             format: 'text',   
+        { header: 'ID',           accessorKey: '_id',             format: 'text',   enableGlobalFilter: false,   
           cell: ({ row }) => row.original._id ? row.original._id.slice(-5) : '',    },
-        { header: 'Servicio',     accessorKey: 'service',         format: 'text',   },
-        { header: 'N Com',        accessorKey: 'business_number', format: 'text',   },
-        { header: 'Bandera',      accessorKey: 'flag',            format: 'text',   },
+        { header: 'Servicio',     accessorKey: 'service',         format: 'text',   enableGlobalFilter: false,},
+        { header: 'N Com',        accessorKey: 'business_number', format: 'text',   enableGlobalFilter: false,},
+        { header: 'Bandera',      accessorKey: 'flag',            format: 'text',   enableGlobalFilter: false,},
         { header: 'F. Origen',    accessorKey: 'origin_date',
           cell: (info) => dayjs(info.getValue()).format('DD/MM'), format: 'date',   },
         { header: 'Lote',         accessorKey: 'batch',           format: 'number', },
@@ -47,12 +47,12 @@ const Compare01 = () => {
         { header: 'Monto',        accessorKey: 'amount',          format: 'currency',},
         { header: 'F. Pago',      accessorKey: 'payment_date',
           cell: (info) => dayjs(info.getValue()).format('DD/MM'), format: 'date',   },
-        { header: 'Casos',        accessorKey: 'meetings',        format: 'number', className: 'meeting',
+        { header: 'Casos',        accessorKey: 'meetings',        format: 'number', enableGlobalFilter: false, className: 'meeting',
           meta:   { filterVariant: 'select', },
         },
-        { header: 'Id2',          accessorKey: 'idMeeting',        format: 'text',  className: 'meeting',
+        { header: 'Id2',          accessorKey: 'idMeeting',        format: 'text',  enableGlobalFilter: false, className: 'meeting',
           cell: ({ row }) => row.original.idMeeting ? row.original.idMeeting.slice(-5) : '',    },
-        { header: 'Error',        accessorKey: 'error',           format: 'number', className: 'meeting'},
+        { header: 'Error',        accessorKey: 'error',           format: 'number', enableGlobalFilter: false, className: 'meeting'},
       ],
     }
   }
@@ -67,25 +67,26 @@ const Compare01 = () => {
     tableOptions: {
       allow: {
         paginated: true,
+        sort: true,
         globalFilter: true,
       },
       handleCellClick: logcell2,
       globalFilterValue: selectedValue1,
       columns: [
         {
-          header: 'ID',           accessorKey: '_id',             format: 'text',
+          header: 'ID',           accessorKey: '_id',             format: 'text',   enableGlobalFilter: false,
           cell: ({ row }) => row.original._id ? row.original._id.slice(-5) : '',    },
-        { header: 'Bandera',      accessorKey: 'flag',            format: 'text',   },
+        { header: 'Bandera',      accessorKey: 'flag',            format: 'text',   enableGlobalFilter: false,},
         { header: 'F. Origen',    accessorKey: 'origin_date',
           cell: (info) => dayjs(info.getValue()).format('DD/MM'), format: 'date',   },
         { header: 'Lote',         accessorKey: 'batch',           format: 'number', },
         { header: 'Cupon',        accessorKey: 'number',          format: 'number', },
         { header: 'Monto',        accessorKey: 'amount',          format: 'currency',},
         { header: 'Cliente',      accessorKey: 'client',          format: 'text',   },
-        { header: 'Casos',        accessorKey: 'meetings',        format: 'number', className: 'meeting',},
-        { header: 'Id2',          accessorKey: 'idMeeting',        format: 'text',  className: 'meeting',
+        { header: 'Casos',        accessorKey: 'meetings',        format: 'number', enableGlobalFilter: false, className: 'meeting',},
+        { header: 'Id2',          accessorKey: 'idMeeting',        format: 'text',  enableGlobalFilter: false, className: 'meeting',
           cell: ({ row }) => row.original.idMeeting ? row.original.idMeeting.slice(-5) : '',    },
-        { header: 'Error',        accessorKey: 'error',           format: 'number', className: 'meeting',},
+        { header: 'Error',        accessorKey: 'error',           format: 'number', enableGlobalFilter: false, className: 'meeting',},
       ],
     }
   }
@@ -130,13 +131,10 @@ const Compare01 = () => {
         </div>
         <div>
           <h2 className='title-table'>Tabla 02 - cupones</h2>
-          <Table01Init
-            endpoint={table02.backend.endpoint}
-            columns={table02.tableOptions.columns}
-            handleCellClick={table02.tableOptions.handleCellClick}
-            selectedValue={table02.tableOptions.globalFilterValue}
-            filter={table02.backend.filter}
-            refresh={refresh}/>
+          <TableInit
+            backend = {table02.backend}
+            tableOptions = {table02.tableOptions}
+          />
         </div>
       </div>
     </div>

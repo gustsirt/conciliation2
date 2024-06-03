@@ -1,25 +1,72 @@
-import { useState } from 'react'
-import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, } from '@tanstack/react-table'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel, } from '@tanstack/react-table'
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 
 const TableBase = ({ data, options}) => {
-  const { columns, allow } = options;
+  const { allow, handleCellClick, globalFilterValue } = options;
+  
+  const datadef = useMemo(() => data, [data]);
+  const columns = useMemo(() => options.columns, [options.columns]);
+  
   const isPaginated = allow && allow.paginated === true;
-  const isGlobalFiltered = allow && allow.globalFilter === true;
 
+  const isSorted = allow && allow.sort === true;
   const [sorting, setSorting] = useState([])
+
+  const isGlobalFiltered = allow && allow.globalFilter === true;
   const [globalFilter, setGlobalFilter] = useState("")
   
+  const handleClick = handleCellClick || (() => { });
+  const tableRef = useRef(null); // se usa para limpiar filtro global
+
   const table = useReactTable({
     columns: columns.filter(column => !column.hidden),
     data: data,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: isPaginated ? getPaginationRowModel() : null,
-    
+    getSortedRowModel: isSorted ? getSortedRowModel() : undefined,
+    getFilteredRowModel: isGlobalFiltered ? getFilteredRowModel() : undefined,
+    getPaginationRowModel: isPaginated ? getPaginationRowModel() : undefined,
+    state: {
+      sorting: sorting,
+      globalFilter: globalFilter,
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: 'includesString',
   })
 
+  // limpia el filtro global al seleccionar afuera
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (tableRef.current && !tableRef.current.contains(e.target)) {
+        setGlobalFilter("");
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  // Aplicar filtro global basado en el valor seleccionado de la otra tabla
+  useEffect(() => {
+    if (globalFilterValue && globalFilterValue.value !== undefined) {
+      setGlobalFilter(String(globalFilterValue.value));
+    } else {
+      setGlobalFilter("");
+    }
+  }, [globalFilterValue])
+
   return (
-    <div>
+    <div ref={tableRef}>
+      <div className='table-options'>
+        <input
+          type="text"
+          value={globalFilter}
+          onChange={e => setGlobalFilter(e.target.value)}
+          placeholder='Filtrar'
+        />
+      </div>
       <table>
         <thead>
           {
@@ -28,9 +75,16 @@ const TableBase = ({ data, options}) => {
                 {
                   headerGroup.headers.map(header => (
                     <th key={header.id}
-                      className={header.column.columnDef.className}
-                      onClick={header.column.getToggleSortingHandler()}>
-                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      className={header.column.columnDef.className} 
+                      onClick={isSorted ? header.column.getToggleSortingHandler() : undefined}
+                      >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                      )}
+                      {isSorted ? { asc: "⬆", desc: "⬇" }[header.column.getIsSorted() ?? null ] : undefined }
                     </th>
                   ))
                 }
@@ -45,7 +99,9 @@ const TableBase = ({ data, options}) => {
                 {
                   row.getVisibleCells().map(cell => (
                     <td key={cell.id}
-                      className={cell.column.columnDef.className}>
+                      className={cell.column.columnDef.className}
+                      onClick={isGlobalFiltered ? () => handleClick(row, cell.column) : undefined}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))
@@ -61,7 +117,8 @@ const TableBase = ({ data, options}) => {
             <div className='pag-size'>
               <select
                 value={table.options.state.pagination.pageSize}
-                onChange={e => table.setPageSize(e.target.value)}>
+                onChange={e => table.setPageSize(Number(e.target.value))}
+              >
                 {[10,25,50,100].map(elem => {
                   return (
                     <option key={elem} value={elem}>
