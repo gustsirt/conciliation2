@@ -35,6 +35,28 @@ const Compare01 = () => {
       handleCellClick: logcell1,
       globalFilterValue: selectedValue2,
       columns: [
+        { 
+          id: "select",
+          header: ({ table }) => (
+            <IndeterminateCheckbox
+              {...{
+                checked: table.getIsAllRowsSelected(),
+                indeterminate: table.getIsSomeRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />
+          ),
+          cell: ({ row }) => (
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          ),
+        },
         { header: 'ID',           accessorKey: '_id',             format: 'text',   enableGlobalFilter: false,   
           cell: ({ row }) => row.original._id ? row.original._id.slice(-5) : '',    },
         { header: 'Servicio',     accessorKey: 'service',         format: 'text',   enableGlobalFilter: false,},
@@ -73,6 +95,28 @@ const Compare01 = () => {
       handleCellClick: logcell2,
       globalFilterValue: selectedValue1,
       columns: [
+        { 
+          id: "select",
+          header: ({ table }) => (
+            <IndeterminateCheckbox
+              {...{
+                checked: table.getIsAllRowsSelected(),
+                indeterminate: table.getIsSomeRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />
+          ),
+          cell: ({ row }) => (
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          ),
+        },
         {
           header: 'ID',           accessorKey: '_id',             format: 'text',   enableGlobalFilter: false,
           cell: ({ row }) => row.original._id ? row.original._id.slice(-5) : '',    },
