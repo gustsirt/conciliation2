@@ -154,12 +154,10 @@ class WorkingService {
         idMeeting: ope.idMeeting,
         meetings: ope.meetings
       });
-
-      console.log(`Marca limpiada en operación ${id} de data01.`);
       return ope;
     } else if (tableNumber === 2) {
       // Limpia la marca en data02
-      const ope = await this.data02Service.getById(id);
+      const ope = await this.data02Service.getBy({_id: id});
       if (!ope) {
         throw new Error(`Operación con ID ${id} no encontrada en data02.`);
       }
@@ -171,8 +169,6 @@ class WorkingService {
         idMeeting: ope.idMeeting,
         meetings: ope.meetings
       });
-
-      console.log(`Marca limpiada en operación ${id} de data02.`);
       return ope;
     } else {
       throw new Error('Número de tabla inválido. Debe ser 1 o 2.');
@@ -182,15 +178,3 @@ class WorkingService {
 }
 
 export default WorkingService
-
-/*
-{"configObject": {
-    "filter1": {
-        "flag": "visa",
-        "payment_month": 3
-    },
-    "filter2": {
-        "flag": "visa"
-    }
-}}
-*/

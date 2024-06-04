@@ -24,12 +24,51 @@ const Compare01 = () => {
   const [rowSelection1, setRowSelection1] = useState([])
   const [rowSelection2, setRowSelection2] = useState([])
 
+  // operaciones de Conciliacion ------------
+  const handleLink = async () => {
+    setLinking(true);
+    const body = {configObject: {backendFilter01, backendFilter02 }};
+    // console.log(body);
+    await postData('api/link/mark', body);
+    setLinking(false);
+    setRefresh(!refresh);
+  }
+  const handleClean = async () => {
+    setLinking(true);
+    const body = {configObject: {backendFilter01, backendFilter02 }};
+    // console.log(body);
+    await deleteData('api/link/mark', body);
+    setLinking(false);
+    setRefresh(!refresh);
+  }
+  const marking = async () => {
+    console.log("Markando");
+  }
+  const unmarking = async () => {
+    console.log("Desmarkando");
+    //rowSelection1.length > 0 && console.log("tabla1");
+    if ( rowSelection1.length > 0 ) {
+      rowSelection1.forEach(async row => {
+        await deleteData(`api/link/match/${row["_id"]}/1`, {})
+      })
+    }
+    //rowSelection2.length > 0 && console.log("tabla2");
+    if ( rowSelection2.length > 0 ) {
+      rowSelection2.forEach(async row => {
+        console.log(row);
+        await deleteData(`api/link/match/${row["_id"]}/2`, {})
+      })
+    }
+    setRefresh(!refresh);
+  }
+
   // configuracion tabla 01 ------------
   const table01 = {
     backend: {
       endpoint: 'api/files/01/',
       filter: backendFilter01,
-      refresh: 0
+      refresh: 0,
+      refresh,
     },
     tableOptions: {
       allow: {
@@ -39,7 +78,6 @@ const Compare01 = () => {
         selector: true,
       },
       handleCellClick: logcell1,
-      rowSelection: rowSelection1,
       setRowSelection: setRowSelection1,
       globalFilterValue: selectedValue2,
       columns: [
@@ -92,7 +130,8 @@ const Compare01 = () => {
     backend: {
       endpoint: 'api/files/02/',
       filter: backendFilter02,
-      refresh: 0
+      refresh: 0,
+      refresh,
     },
     tableOptions: {
       allow: {
@@ -102,7 +141,6 @@ const Compare01 = () => {
         selector: true,
       },
       handleCellClick: logcell2,
-      rowSelection: rowSelection2,
       setRowSelection: setRowSelection2,
       globalFilterValue: selectedValue1,
       columns: [
@@ -146,27 +184,11 @@ const Compare01 = () => {
     }
   }
 
-  // operaciones de Conciliacion ------------
-  const handleLink = async () => {
-    setLinking(true);
-    const body = {configObject: {filter01, filter02 }};
-    // console.log(body);
-    await postData('api/link/mark', body);
-    setLinking(false);
-    setRefresh(!refresh);
-  }
-  const handleClean = async () => {
-    setLinking(true);
-    const body = {configObject: {filter01, filter02 }};
-    // console.log(body);
-    await deleteData('api/link/mark', body);
-    setLinking(false);
-    setRefresh(!refresh);
-  }
-
   useEffect(()=>{
     console.log("tabla 1: ",rowSelection1);
+    // console.log("Seleccionados tabla 1: ", rowSelection1.map(row => row._id));
     console.log("tabla 2: ",rowSelection2);
+    // console.log("Seleccionados tabla 2: ", rowSelection2.map(row => row._id));
   },[rowSelection1, rowSelection2])
 
   return (
@@ -178,6 +200,8 @@ const Compare01 = () => {
           : (<>
             <button onClick={() => {handleLink()}}> - Linkear Tablas -</button>
             <button onClick={() => {handleClean()}}> - Borrar Marcas -</button>
+            <button onClick={()=>marking()  }>Mark</button>
+            <button onClick={()=>unmarking()}>UnMark</button>
           </>)
         }
       </div>

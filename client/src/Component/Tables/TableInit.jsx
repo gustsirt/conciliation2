@@ -28,7 +28,7 @@ const TableInit = ({ backend, tableOptions }) => {
       }
     }
     fetchDataAndSetData();
-  }, [backend.filter]);
+  }, [backend.filter, backend.refresh]);
 
   return (
     <div className="table-container">
@@ -38,13 +38,18 @@ const TableInit = ({ backend, tableOptions }) => {
         <p>Error: {error.message}</p>
       ) : (
         <>
-          {!backend.allowedFilters ? null
-            : <FilterBESelectors
+          <div>
+            {backend.allowedFilters &&
+              <FilterBESelectors
                 endpoint={backend.endpoint}
                 filters={backend.allowedFilters}
                 filter={backend.filter}
                 setFilter={backend.setFilter}
-                />}
+              />
+            }
+            <div>
+            </div>
+          </div>
           <TableBase
             data={data}
             options={tableOptions}

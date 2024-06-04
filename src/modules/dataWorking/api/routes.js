@@ -10,3 +10,4 @@ export default router
 .delete('/mark', uControl.cleanMarks)
 .post('/match/:id1/:id2', uControl.markMatching)
 .delete('/match/:id/:tableNumber', uControl.cleanMark)
+//api/link/match/:id/:tableNumber

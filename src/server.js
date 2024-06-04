@@ -15,7 +15,9 @@ logger.info('Mode config: ' + mode);
 const app = express()
 
 // App Configurations --------------------------------
-app.use(cors()); //{ origin: configObject.cors_origin }
+app.use(cors(
+  {origin: configEnv.cors_origin}
+)); //{ origin: configObject.cors_origin }
 const port = configEnv.port || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

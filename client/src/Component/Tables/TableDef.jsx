@@ -17,8 +17,8 @@ const TableBase = ({ data, options}) => {
   const [globalFilter, setGlobalFilter] = useState("")
   
   const isSelection = allow && allow.selector === true;
-  const rowSelection = options.rowSelection || [];
-  const setRowSelection = options.setRowSelection || undefined;
+  const sendRowSelection = isSelection && options.setRowSelection || undefined;
+  const [rowSelection, setRowSelection] = useState({});
 
   const handleClick = handleCellClick || (() => { });
   const tableRef = useRef(null); // se usa para limpiar filtro global
@@ -38,11 +38,8 @@ const TableBase = ({ data, options}) => {
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: 'includesString',
-    onRowSelectionChange: (newRowSelection) => {
-      const selectedRows = table.getSelectedRowModel().flatRows.map(row => row.original);
-      setRowSelection(selectedRows);
-    },
-    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: isSelection,
   })
 
   // limpia el filtro global al seleccionar afuera
@@ -67,15 +64,33 @@ const TableBase = ({ data, options}) => {
     }
   }, [globalFilterValue])
 
+  // Actualiza la selección de filas en options.setRowSelection
+  useEffect(() => {
+    if (sendRowSelection) {
+      const selectedRows = table.getSelectedRowModel().flatRows.map(row => row.original);
+      sendRowSelection(selectedRows);
+    }
+  }, [rowSelection]);
+
   return (
     <div ref={tableRef}>
       <div className='table-options'>
-        <input
-          type="text"
-          value={globalFilter}
-          onChange={e => setGlobalFilter(e.target.value)}
-          placeholder='Filtrar'
-        />
+        <div>
+          { isGlobalFiltered && <input
+            type="text"
+            value={globalFilter}
+            onChange={e => setGlobalFilter(e.target.value)}
+            placeholder='Filtrar'
+        />}
+        </div>
+        { isPaginated && 
+          <div className='pagination'>
+              <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}><BiChevronsLeft /> </button>
+              <button onClick={() => table.previousPage()}  disabled={!table.getCanPreviousPage()}><BiChevronLeft />  </button>
+              <p>Pagina {table.options.state.pagination.pageIndex+1} de {table.getPageCount()}</p>
+              <button onClick={() => table.nextPage()}      disabled={!table.getCanNextPage()}>    <BiChevronRight /> </button>
+              <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()}><BiChevronsRight /></button>
+          </div> }
       </div>
       <table>
         <thead>
@@ -122,33 +137,21 @@ const TableBase = ({ data, options}) => {
         </tbody>
       </table>
       <div className='table-footer'>
-        {isPaginated && (
-          <>
-            <div className='pag-size'>
-              <select
-                value={table.options.state.pagination.pageSize}
-                onChange={e => table.setPageSize(Number(e.target.value))}
-              >
-                {[10,25,50,100].map(elem => {
-                  return (
-                    <option key={elem} value={elem}>
-                      {elem}
-                    </option>)
-                })}
-              </select>
-              <p>Transacciones</p>
-            </div>
-            <div className='pagination'>
-              <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}><BiChevronsLeft /> </button>
-              <button onClick={() => table.previousPage()}  disabled={!table.getCanPreviousPage()}><BiChevronLeft />  </button>
-              <p>Pagina {table.options.state.pagination.pageIndex+1} de {table.getPageCount()}</p>
-              <button onClick={() => table.nextPage()}      disabled={!table.getCanNextPage()}>    <BiChevronRight /> </button>
-              <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()}><BiChevronsRight /></button>
-            </div>
-          </>)
-        }
+        { isPaginated && <div className='pag-size'>
+          <select
+            value={table.options.state.pagination.pageSize}
+            onChange={e => table.setPageSize(Number(e.target.value))}
+          >
+            {[10,25,50,100].map(elem => {
+              return (
+                <option key={elem} value={elem}>
+                  {elem}
+                </option>)
+            })}
+          </select>
+          <p>Transacciones</p>
+        </div>}
       </div>
-      {/* {console.log(table.getSelectedRowModel().flatRows)} */}
     </div>
   )
 }
