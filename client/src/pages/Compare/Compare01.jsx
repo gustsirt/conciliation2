@@ -46,20 +46,18 @@ const Compare01 = () => {
   }
   const unmarking = async () => {
     console.log("Desmarkando");
-    //rowSelection1.length > 0 && console.log("tabla1");
     if ( rowSelection1.length > 0 ) {
       rowSelection1.forEach(async row => {
         await deleteData(`api/link/match/${row["_id"]}/1`, {})
       })
     }
-    //rowSelection2.length > 0 && console.log("tabla2");
     if ( rowSelection2.length > 0 ) {
       rowSelection2.forEach(async row => {
         console.log(row);
         await deleteData(`api/link/match/${row["_id"]}/2`, {})
       })
     }
-    setRefresh(!refresh);
+    if ( rowSelection1.length > 0 || rowSelection2.length > 0 ) setRefresh(!refresh);
   }
 
   // configuracion tabla 01 ------------
