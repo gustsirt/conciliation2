@@ -43,6 +43,15 @@ const Compare01 = () => {
   }
   const marking = async () => {
     console.log("Markando");
+    if ( rowSelection1.length > 0 || rowSelection2.length > 0 ) {
+      rowSelection1.forEach( async row => {
+        await postData(`api/link/match/${row["_id"]}/${rowSelection2[0]["_id"]}`, {});
+      })
+      rowSelection2.forEach( async row => {
+        await postData(`api/link/match/${rowSelection1[0]["_id"]}/${row["_id"]}`, {});
+      })
+      setRefresh(!refresh);
+    }
   }
   const unmarking = async () => {
     console.log("Desmarkando");
