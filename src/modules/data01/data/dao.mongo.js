@@ -16,5 +16,22 @@ export default class Data01DaoMongo extends DaoMongo {
     const monthArray = months.map(month => month._id);
     return monthArray;
   }
+
+  summary = async (flag, payment_month) => {
+    const summary = await this.model.aggregate([
+      { $match: {
+          flag: flag,
+          payment_month: parseInt(payment_month, 10)
+      }},
+      { $group: {
+          _id: "$payment_date",
+          totalAmount: { $sum: "$amount" }
+      }},
+      { $sort: { _id: 1 }
+      }
+    ]);
+
+    return summary
+  };
 }
 

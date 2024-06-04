@@ -41,7 +41,6 @@ export default class Data01Controller extends CustomController {
 
   get = async (req, res) => {
     const {business_number, flag, payment_month} = req.query
-    
     const filter = {}
     if( business_number ) filter["business_number"] = business_number;
     if( flag ) filter["flag"] = flag;
@@ -50,6 +49,16 @@ export default class Data01Controller extends CustomController {
     try {
       const element = await this.service.get(filter);
       res.sendSuccessOrNotFound(element);
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+  summary = async (req, res) => {
+    const { flag, payment_month } = req.params;
+    try {
+      console.log("funcion summary");
+      const summary = await this.service.summary(flag, payment_month)
+      res.sendSuccess(summary || "funcion summary")
     } catch (error) {
       res.sendCatchError(error, "An error occurred in the API request");
     }

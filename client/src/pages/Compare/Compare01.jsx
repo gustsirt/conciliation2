@@ -205,10 +205,10 @@ const Compare01 = () => {
         { linking
           ? (<p>Procesando info...</p>)
           : (<>
-            <button onClick={() => {handleLink()}}> - Linkear Tablas -</button>
-            <button onClick={() => {handleClean()}}> - Borrar Marcas -</button>
-            <button onClick={()=>marking()  }>Mark</button>
-            <button onClick={()=>unmarking()}>UnMark</button>
+            <button onClick={() => handleLink() }>Linkear Tablas</button>
+            <button onClick={() => handleClean()}>Borrar Marcas</button>
+            <button onClick={() => marking()    }>Mark</button>
+            <button onClick={() => unmarking()  }>UnMark</button>
           </>)
         }
       </div>

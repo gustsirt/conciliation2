@@ -8,6 +8,8 @@ class Data01Service extends CustomServiceCsv {
   }
 
   getMonths = async (field) => await this.dao.getMonths(field);
+
+  summary = async (flag, payment_month) => this.dao.summary(flag, payment_month);
 }
 
 export default new Data01Service()

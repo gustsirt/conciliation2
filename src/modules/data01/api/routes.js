@@ -10,3 +10,4 @@ export default router
   .get ('/', uControl.get)
   .post('/fromFile/', upload.single('file'), uControl.createfromFile)
   .get ('/unique/:field', uControl.getUniqueValue)
+  .get ('/summary/:flag/:payment_month', uControl.summary)
