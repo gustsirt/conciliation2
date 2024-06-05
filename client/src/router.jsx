@@ -8,6 +8,7 @@ import Table01 from './pages/Table01.jsx';
 import Table02 from './pages/Table02.jsx';
 import Compare01 from './pages/Compare/Compare01.jsx';
 import Colores from './pages/temporal/Colores.jsx';
+import Summary from './pages/Summary.jsx';
 
 const router = createHashRouter([
   // createBrowserRouter reemplazaria --> createHashRouter (se pone hash para que lo tome github pages)
@@ -20,6 +21,7 @@ const router = createHashRouter([
       { path: 'table01/', element: <Table01 />},
       { path: 'table02/', element: <Table02 />},
       { path: 'compare01/', element: <Compare01 />},
+      { path: 'summary/', element: <Summary />},
       { path: 'refcolores/', element: <Colores /> }
     ],
   },

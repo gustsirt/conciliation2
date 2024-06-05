@@ -19,18 +19,18 @@ export default class Data01DaoMongo extends DaoMongo {
 
   summary = async (flag, payment_month) => {
     const summary = await this.model.aggregate([
-      { $match: {
+      { $match: { // filtra segun criterio
           flag: flag,
-          payment_month: parseInt(payment_month, 10)
+          payment_month: payment_month,
       }},
-      { $group: {
+      { $group: { // agrupa segun forma determinada
           _id: "$payment_date",
           totalAmount: { $sum: "$amount" }
       }},
       { $sort: { _id: 1 }
       }
     ]);
-
+    // REPASAR MODELOS DE AGREGACION
     return summary
   };
 }

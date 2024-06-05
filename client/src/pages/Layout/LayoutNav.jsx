@@ -23,6 +23,10 @@ const LayoutNav = ({user}) => {
       label: "Compare",
     },
     {
+      path: "summary/",
+      label: "Resumen",
+    },
+    {
       path: "clients/",
       label: "Clientes",
       visibleFor: {
