@@ -41,7 +41,7 @@ const TableInit = ({ backend, tableOptions }) => {
           <div>
             {backend.allowedFilters &&
               <FilterBESelectors
-                endpoint={backend.endpoint}
+                endpoint={backend.endpointfilter}
                 filters={backend.allowedFilters}
                 filter={backend.filter}
                 setFilter={backend.setFilter}

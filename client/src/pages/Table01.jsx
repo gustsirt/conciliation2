@@ -10,6 +10,7 @@ const Table01 = () => {
   // BackEnd Configuration
   const backend = {
     endpoint: 'api/files/01/',
+    endpointfilter: 'api/files/01/',
     filter: backendFilter01,
     setFilter: setBackendFilter01,
     allowedFilters: ['service', 'flag', 'business_number', 'payment_month'],

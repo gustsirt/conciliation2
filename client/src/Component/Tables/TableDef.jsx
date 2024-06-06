@@ -23,9 +23,12 @@ const TableBase = ({ data, options}) => {
   const handleClick = handleCellClick || (() => { });
   const tableRef = useRef(null); // se usa para limpiar filtro global
 
+  const colSummary = allow.summary || undefined;
+  const [totalAmount, setTotalAmount] = useState(0);
+
   const table = useReactTable({
     columns: columns.filter(column => !column.hidden),
-    data: data,
+    data: datadef,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: isSorted ? getSortedRowModel() : undefined,
     getFilteredRowModel: isGlobalFiltered ? getFilteredRowModel() : undefined,
@@ -71,6 +74,17 @@ const TableBase = ({ data, options}) => {
       sendRowSelection(selectedRows);
     }
   }, [rowSelection]);
+
+  // Obtener el total
+  useEffect(() => {
+    if (colSummary) {
+      let total = 0;
+      table.getRowModel().rows.forEach(row => {
+        total += Number(row.original[colSummary]);
+      });
+      setTotalAmount(total);
+    }
+  }, [table.getRowModel().rows]);
 
   return (
     <div ref={tableRef}>
@@ -152,6 +166,10 @@ const TableBase = ({ data, options}) => {
           <p>Transacciones</p>
         </div>}
       </div>
+      {colSummary && (<div className='summary'>
+        <p>Total del Monto:</p>
+        <h2>{Intl.NumberFormat('es-ES').format(totalAmount)}</h2>
+      </div>)}
     </div>
   )
 }

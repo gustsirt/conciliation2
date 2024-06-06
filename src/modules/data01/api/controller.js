@@ -54,10 +54,18 @@ export default class Data01Controller extends CustomController {
     }
   }
   summary = async (req, res) => {
-    const { flag, payment_month } = req.params;
+    const { service, flag, business_number, payment_month } = req.query;
+
+    // Construir el filtro dinámicamente
+    const match = {};
+    if (service) match.service = service;
+    if (flag) match.flag = flag;
+    if (business_number) match.business_number = business_number;
+    if (payment_month) match.payment_month = parseInt(payment_month, 10);
+
     try {
       console.log("funcion summary");
-      const summary = await this.service.summary(flag, payment_month)
+      const summary = await this.service.summary(match)
       res.sendSuccess(summary || "funcion summary")
     } catch (error) {
       res.sendCatchError(error, "An error occurred in the API request");
