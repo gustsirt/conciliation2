@@ -8,34 +8,32 @@ import { objToQueryString } from './Helper/objToQueryString.jsx';
 const TableInit = ({ backend, tableOptions }) => {
   const { loading, fetchData } = useFetchService();
   const [data, setData] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
   const [error, setError] = useState(null);
 
   // Carga los datos de la tabla
   useEffect(() => {
-    async function fetchDataAndSetData() {
+    const fetchDataAndSetData = async () => {
       try {
-        let filterstring = objToQueryString(backend.filter)
-        const resp = await fetchData(backend.endpoint+filterstring);
+        const filterstring = objToQueryString(backend.filter);
+        const resp = await fetchData(backend.endpoint + filterstring);
         if (!resp.isError) {
           setData(resp.data);
-          setDataLoaded(true);
         } else {
-          setError("Error al cargar la tabla. " + resp.data);
+          setError(`Error al cargar la tabla. ${resp.data}`);
         }
       } catch (error) {
-        setError("Se ha producido un error. " + error);
+        setError(`Se ha producido un error. ${error.message}`);
       }
-    }
+    };
     fetchDataAndSetData();
-  }, [backend.filter, backend.refresh]);
+  }, [backend.filter, backend.refresh, backend.endpoint]);
 
   return (
     <div className="table-container">
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>Error: {error.message}</p>
+        <p>Error: {error}</p>
       ) : (
         <>
           <div>

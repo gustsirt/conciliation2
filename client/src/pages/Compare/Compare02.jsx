@@ -1,18 +1,16 @@
+import { useEffect } from 'react';
 import dayjs from 'dayjs';
 import './compare.scss';
-import useTableSimple from '../../Component/Tables/hooks/useTableSimple.jsx';
 import { useContext, useState } from 'react';
 import { ContextFiles } from '../../Context/ContextFiles.jsx';
-import useFetchService from '../../hooks/useFetchService.jsx';
-import TableInit from '../../Component/Tables/TableInit.jsx';
 import IndeterminateCheckbox from '../../Component/Tables/Helper/IndeterminateCheckBox.jsx';
-import { useEffect } from 'react';
+import useTableSimple from '../../Component/Tables/hooks/useTableSimple.jsx';
+import useConciliation from '../../hooks/useConciliarion.jsx';
+import TableInit from '../../Component/Tables/TableInit.jsx';
 
-const Compare01 = () => {
-  const { backendFilter01, backendFilter02} = useContext(ContextFiles)
-  const { postData, deleteData } = useFetchService();
-  const [linking, setLinking ] = useState(false)
-  const [refresh, setRefresh] = useState(false);
+const Compare = () => {
+  const { backendFilter01, backendFilter02} = useContext(ContextFiles) // se pasa parametro
+  const { linking, refresh, handleLink, handleClean, marking, unmarking } = useConciliation(backendFilter01, backendFilter02);
 
   // configura posibles valores tomados para filtrar ------------
   const {getValuesLimited} = useTableSimple(["flag", "origin_date", "batch", "number", "amount"])
@@ -20,61 +18,21 @@ const Compare01 = () => {
   const logcell2 = async (row, column) => setSelectedValue2(getValuesLimited(row, column))
 
   const [selectedValue1, setSelectedValue1] = useState({});
-  const [selectedValue2, setSelectedValue2] = useState({}); 
-  const [rowSelection1, setRowSelection1] = useState([])
-  const [rowSelection2, setRowSelection2] = useState([])
+  const [selectedValue2, setSelectedValue2] = useState({});
+  const [rowSelection1, setRowSelection1] = useState([]);
+  const [rowSelection2, setRowSelection2] = useState([]);
 
-  // operaciones de Conciliacion ------------
-  const handleLink = async () => {
-    setLinking(true);
-    const body = {configObject: {backendFilter01, backendFilter02 }};
-    // console.log(body);
-    await postData('api/link/mark', body);
-    setLinking(false);
-    setRefresh(!refresh);
-  }
-  const handleClean = async () => {
-    setLinking(true);
-    const body = {configObject: {backendFilter01, backendFilter02 }};
-    // console.log(body);
-    await deleteData('api/link/mark', body);
-    setLinking(false);
-    setRefresh(!refresh);
-  }
-  const marking = async () => {
-    console.log("Markando");
-    if ( rowSelection1.length > 0 || rowSelection2.length > 0 ) {
-      rowSelection1.forEach( async row => {
-        await postData(`api/link/match/${row["_id"]}/${rowSelection2[0]["_id"]}`, {});
-      })
-      rowSelection2.forEach( async row => {
-        await postData(`api/link/match/${rowSelection1[0]["_id"]}/${row["_id"]}`, {});
-      })
-      setRefresh(!refresh);
-    }
-  }
-  const unmarking = async () => {
-    console.log("Desmarkando");
-    if ( rowSelection1.length > 0 ) {
-      rowSelection1.forEach(async row => {
-        await deleteData(`api/link/match/${row["_id"]}/1`, {})
-      })
-    }
-    if ( rowSelection2.length > 0 ) {
-      rowSelection2.forEach(async row => {
-        console.log(row);
-        await deleteData(`api/link/match/${row["_id"]}/2`, {})
-      })
-    }
-    if ( rowSelection1.length > 0 || rowSelection2.length > 0 ) setRefresh(!refresh);
-  }
+  // useEffect(()=>{
+  //   console.log("tabla 1: ",rowSelection1);
+  //   console.log("tabla 2: ",rowSelection2);
+  // },[rowSelection1, rowSelection2])
 
   // configuracion tabla 00 Summary ------------
   const table00 = {
     backend: {
       endpoint: 'api/files/01/summary',
       filter: backendFilter01,
-      refresh: 0,
+      refresh,
     },
     tableOptions: {
       allow: {
@@ -112,7 +70,7 @@ const Compare01 = () => {
       endpoint: 'api/files/01/',
       endpointfilter: 'api/files/01/',
       filter: backendFilter01,
-      refresh: 0,
+      refresh,
     },
     tableOptions: {
       allow: {
@@ -175,7 +133,7 @@ const Compare01 = () => {
       endpoint: 'api/files/02/',
       endpointfilter: 'api/files/02/',
       filter: backendFilter02,
-      refresh: 0,
+      refresh,
     },
     tableOptions: {
       allow: {
@@ -228,12 +186,7 @@ const Compare01 = () => {
     }
   }
 
-  useEffect(()=>{
-    console.log("tabla 1: ",rowSelection1);
-    // console.log("Seleccionados tabla 1: ", rowSelection1.map(row => row._id));
-    console.log("tabla 2: ",rowSelection2);
-    // console.log("Seleccionados tabla 2: ", rowSelection2.map(row => row._id));
-  },[rowSelection1, rowSelection2])
+
 
   return (
     <div>
@@ -242,10 +195,10 @@ const Compare01 = () => {
         { linking
           ? (<p>Procesando info...</p>)
           : (<>
-            <button onClick={() => handleLink() }>Linkear Tablas</button>
-            <button onClick={() => handleClean()}>Borrar Marcas</button>
-            <button onClick={() => marking()    }>Mark</button>
-            <button onClick={() => unmarking()  }>UnMark</button>
+            <button onClick={handleLink}>Linkear Tablas</button>
+            <button onClick={handleClean}>Borrar Marcas</button>
+            <button onClick={() => marking(rowSelection1, rowSelection2  )}>Mark</button>
+            <button onClick={() => unmarking(rowSelection1, rowSelection2)}>UnMark</button>
           </>)
         }
       </div>
@@ -282,4 +235,4 @@ const Compare01 = () => {
   )
 }
 
-export default Compare01
+export default Compare
