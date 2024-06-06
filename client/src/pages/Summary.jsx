@@ -56,7 +56,7 @@ const Summary = () => {
         header: 'Monto',
         accessorKey: 'totalAmount',
         id: 'totalAmount',
-        Cell: ({ value }) => Intl.NumberFormat('es-ES').format(value)
+        cell: (cel) => new Intl.NumberFormat('es-ES').format(cel.getValue()),
       },
     ]
   }
