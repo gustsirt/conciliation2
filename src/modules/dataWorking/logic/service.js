@@ -164,10 +164,12 @@ class WorkingService {
 
       ope.idMeeting = null;
       ope.meetings = 0;
+      ope.payment_date = 0;
 
       await this.data02Service.update(id, {
         idMeeting: ope.idMeeting,
-        meetings: ope.meetings
+        meetings: ope.meetings,
+        payment_date: ope.payment_date
       });
       return ope;
     } else {

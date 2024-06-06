@@ -17,6 +17,7 @@ export const fileSchema = Schema({
   userupdate:         { type: String,  required: true,   default: "Admin" },
   idMeeting:          { type: Schema.Types.ObjectId, ref: 'data01'}, // id Tabla comparada
   meetings:           Number,                            // Cantidad encontrada
+  payment_date:       Date,                              // fecha de pago
   error:              Number,                            // tipo de error
   isClosed:           Boolean,                           // Campo Cerrado
 })
