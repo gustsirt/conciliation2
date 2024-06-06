@@ -84,24 +84,6 @@ const Compare01 = () => {
       },
       columns: [
         {
-          header: 'Servicio',
-          accessorKey: '_id.service',
-          id: 'service',
-          format: 'text',
-        },
-        {
-          header: 'N Com',
-          accessorKey: '_id.business_number',
-          id: 'business_number',
-          format: 'text',
-        },
-        {
-          header: 'Bandera',
-          accessorKey: '_id.flag',
-          id: 'flag',
-          format: 'text',
-        },
-        {
           Header: 'Mes de Pago',
           accessor: '_id.payment_month',
           id: 'payment_month',
@@ -274,6 +256,8 @@ const Compare01 = () => {
             backend = {table00.backend}
             tableOptions = {table00.tableOptions}
           />
+          <p>- Pensando agregar total (f.pago tabla 2)</p>
+          <p>- Agregar 2do total y abajo Dif</p>
         </div>
         <div>
           <h2 className='title-table'>Tabla 01 - tarjeta</h2>
@@ -281,6 +265,8 @@ const Compare01 = () => {
             backend = {table01.backend}
             tableOptions = {table01.tableOptions}
           />
+          <p>- Pensando reemplazar error por diferencia</p>
+          <p>- A analizar despues caso 1 fila tarjeta = 2 filas cupon</p>
         </div>
         <div>
           <h2 className='title-table'>Tabla 02 - cupones</h2>
@@ -288,6 +274,8 @@ const Compare01 = () => {
             backend = {table02.backend}
             tableOptions = {table02.tableOptions}
           />
+          <p>- Pensando reemplazar error por fecha de pago (segun tarjeta)</p>
+          <p>- A analizar despues caso 2 filas tarjeta = 1 fila cupon</p>
         </div>
       </div>
     </div>
