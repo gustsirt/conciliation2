@@ -30,7 +30,7 @@ const Compare = () => {
   // configuracion tabla 00 Summary ------------
   const table00 = {
     backend: {
-      endpoint: 'api/files/01/summary',
+      endpoint: 'api/link/summary',
       filter: backendFilter01,
       refresh,
     },
@@ -38,26 +38,28 @@ const Compare = () => {
       allow: {
         paginated: true,
         sort: true,
-        summary: 'totalAmount',
+        especialSummary: true,
       },
       columns: [
         {
-          Header: 'Mes de Pago',
-          accessor: '_id.payment_month',
-          id: 'payment_month',
-          format: 'number',
-        },
-        {
           header: 'F. Pago',
-          accessorKey: '_id.payment_date',
-          id: 'payment_date',
+          accessor: 'payment_date',
           cell: (info) => dayjs(info.getValue()).format('DD/MM'),
           format: 'date',
         },
         {
-          header: 'Monto',
-          accessorKey: 'totalAmount',
-          id: 'totalAmount',
+          header: 'Tarjeta',
+          accessorKey: 'totalData01',
+          cell: (cel) => new Intl.NumberFormat('es-ES').format(cel.getValue()),
+        },
+        {
+          header: 'Cupones',
+          accessorKey: 'totalData02',
+          cell: (cel) => new Intl.NumberFormat('es-ES').format(cel.getValue()),
+        },
+        {
+          header: 'Diferencia',
+          accessorFn: (row)=>row.totalData01-row.totalData02,
           cell: (cel) => new Intl.NumberFormat('es-ES').format(cel.getValue()),
         },
       ]
@@ -182,12 +184,17 @@ const Compare = () => {
         { header: 'Id2',          accessorKey: 'idMeeting',       format: 'text',  enableGlobalFilter: false, className: 'meeting',
           cell: ({ row }) => row.original.idMeeting ? row.original.idMeeting.slice(-5) : '',    },
         { header: 'F.Pago',       accessorKey: 'payment_date',    format: 'date', enableGlobalFilter: false, className: 'meeting',
-          cell: (info) => dayjs(info.getValue()).format('DD/MM'), },
+          cell: (cel) => displayPaymentDate(cel.getValue()), },
       ],
     }
   }
 
-
+  // Auxiliar de Columnas
+  const displayPaymentDate = (paymentDate) => {
+    if (!paymentDate) { return ""; }
+    const date = dayjs(paymentDate);
+    return date.isValid() ? date.format('DD/MM') : "";
+  };
 
   return (
     <div>
@@ -205,13 +212,13 @@ const Compare = () => {
       </div>
       <div className='tables-container'>
         <div>
-          <h2 className='title-table'>Tabla 01 - RESUMEN</h2>
+          <h2 className='title-table'>RESUMEN COMPARATIVO</h2>
           <TableInit
             backend = {table00.backend}
             tableOptions = {table00.tableOptions}
           />
-          <p>- Pensando agregar total (f.pago tabla 2)</p>
-          <p>- Agregar 2do total y abajo Dif</p>
+          <p>- Mejorar apariencia </p>
+          <p>- OJO que summary data02 no no filtra los IsClosed</p>
         </div>
         <div>
           <h2 className='title-table'>Tabla 01 - tarjeta</h2>

@@ -6,6 +6,7 @@ class Data02Service extends CustomServiceCsv {
   constructor () {
     super(new Data02DaoMongo, TransformOriginData)
   }
+  summary = async (match) => await this.dao.summary(match);
 }
 
 export default new Data02Service()

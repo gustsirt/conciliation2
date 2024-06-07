@@ -6,5 +6,22 @@ export default class Data02DaoMongo extends DaoMongo {
     super(data)
   }
   createMany  = async (newElements) => await this.model.insertMany(newElements)
+
+  summary = async (match) => {
+    const summary = await this.model.aggregate([
+      { $match: match },
+      { $group: { // agrupa segun forma determinada
+          _id: {
+            flag: "$flag",
+            payment_date: "$payment_date"
+          },
+          totalAmount: { $sum: "$amount" }
+      }},
+      {
+        $sort: { "_id.payment_date": 1 }
+      }
+    ]);
+    return summary
+  }
 }
 

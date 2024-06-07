@@ -24,7 +24,11 @@ const TableBase = ({ data, options}) => {
   const tableRef = useRef(null); // se usa para limpiar filtro global
 
   const colSummary = allow.summary || undefined;
+  const especialSummary = allow.especialSummary || false;
+
   const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmount1, setTotalAmount1] = useState(0);
+  const [totalAmount2, setTotalAmount2] = useState(0);
 
   const table = useReactTable({
     columns: columns.filter(column => !column.hidden),
@@ -75,7 +79,7 @@ const TableBase = ({ data, options}) => {
     }
   }, [rowSelection]);
 
-  // Obtener el total
+  // Obtener Totales
   useEffect(() => {
     if (colSummary) {
       let total = 0;
@@ -84,7 +88,19 @@ const TableBase = ({ data, options}) => {
       });
       setTotalAmount(total);
     }
+    if(especialSummary) {
+      let total1 = 0, total2 = 0, total3 = 0;
+      table.getRowModel().rows.forEach(row => {
+        total1 += Number(row.original.totalData01);
+        total2 += Number(row.original.totalData02);
+        total3 += Number(row.original.totalData01) - Number(row.original.totalData02);
+      });
+      setTotalAmount1(total1);
+      setTotalAmount2(total2);
+      setTotalAmount(total3);
+    }
   }, [table.getRowModel().rows]);
+
 
   return (
     <div ref={tableRef}>
@@ -170,6 +186,20 @@ const TableBase = ({ data, options}) => {
         <p>Total del Monto:</p>
         <h2>{Intl.NumberFormat('es-ES').format(totalAmount)}</h2>
       </div>)}
+      {especialSummary && (<>
+        <div className='summary'>
+          <p>Total Tarjetas:</p>
+          <h2>{Intl.NumberFormat('es-ES').format(totalAmount1)}</h2>
+        </div>
+        <div className='summary'>
+          <p>Total Cupones:</p>
+          <h2>{Intl.NumberFormat('es-ES').format(totalAmount2)}</h2>
+        </div>
+        <div className='summary'>
+          <p>Diferencia:</p>
+          <h2>{Intl.NumberFormat('es-ES').format(totalAmount)}</h2>
+        </div>
+      </>)}
     </div>
   )
 }

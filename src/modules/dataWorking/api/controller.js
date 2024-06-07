@@ -56,4 +56,27 @@ export default class WorkController {
     }
   }
 
+  summary = async (req, res) => {
+    const { service, flag, business_number, payment_month } = req.query;
+
+    const match1 = {};
+    const match2 = {};
+
+    if (flag) {
+      match1.flag = flag;
+      match2.flag = flag;
+    }
+    if (payment_month) match1.payment_month = parseInt(payment_month, 10);
+    if (service) match1.service = service;
+    if (business_number) match1.business_number = business_number;
+
+    try {
+      console.log("funcion summary");
+      const summary = await this.service.summary(match1, match2)
+      res.sendSuccess(summary || "funcion summary")
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+
 }

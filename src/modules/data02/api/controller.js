@@ -40,4 +40,20 @@ export default class Data01Controller extends CustomController {
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
+
+  summary = async (req, res) => {
+    const { flag } = req.query;
+
+    // Construir el filtro dinámicamente
+    const match = {};
+    if (flag) match.flag = flag;
+
+    try {
+      console.log("funcion summary");
+      const summary = await this.service.summary(match)
+      res.sendSuccess(summary || "funcion summary")
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
 } 

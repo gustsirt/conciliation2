@@ -63,11 +63,13 @@ class WorkingService {
       const matchingOpeIds = matchedOperations[ope2._id] || [];
       const cc = matchingOpeIds.length;
       const matchingId = cc === 1 ? matchingOpeIds[0] : null;
+      const paymentDate = matchingId ? this.data01.find(ope => ope._id === matchingId).payment_date : null;
 
       return {
         _id: ope2._id,
         idMeeting: matchingId,
-        meetings: cc
+        meetings: cc,
+        payment_date: paymentDate
       };
     });
 
@@ -96,7 +98,8 @@ class WorkingService {
     const data02Updates = this.data02.map(ope2 => ({
       _id: ope2._id,
       idMeeting: null,
-      meetings: null
+      meetings: null,
+      payment_date: null
     }));
 
     // Ejecuta las actualizaciones en paralelo
@@ -123,6 +126,7 @@ class WorkingService {
 
     ope2.idMeeting = id1;
     ope2.meetings = 1;
+    ope2.payment_date = ope1.payment_date;
 
     // Actualiza las operaciones
     await this.data01Service.update(id1, {
@@ -132,7 +136,8 @@ class WorkingService {
 
     await this.data02Service.update(id2, {
       idMeeting: ope2.idMeeting,
-      meetings: ope2.meetings
+      meetings: ope2.meetings,
+      payment_date: ope2.payment_date
     });
 
     console.log(`Operaciones ${id1} y ${id2} marcadas como coincidentes.`);
@@ -164,7 +169,7 @@ class WorkingService {
 
       ope.idMeeting = null;
       ope.meetings = 0;
-      ope.payment_date = 0;
+      ope.payment_date = null;
 
       await this.data02Service.update(id, {
         idMeeting: ope.idMeeting,
@@ -177,6 +182,33 @@ class WorkingService {
     }
   }
 
+  summary = async (match1, match2) => {
+    const data1Summary = await this.data01Service.summary(match1);
+    // TODO: OJO que summary data02 no no filtra los IsClosed
+    const data2Summary = await this.data02Service.summary(match2);
+
+    const combinedSummary = {};
+
+    data1Summary.forEach(item => {
+      const date = item._id.payment_date;
+      if (!combinedSummary[date]) {
+        combinedSummary[date] = { payment_date: date, totalData01: 0, totalData02: 0 };
+      }
+      combinedSummary[date].totalData01 += item.totalAmount;
+    });
+
+    data2Summary.forEach(item => {
+      const date = item._id.payment_date;
+      if (!combinedSummary[date]) {
+        combinedSummary[date] = { payment_date: date, totalData01: 0, totalData02: 0 };
+      }
+      combinedSummary[date].totalData02 += item.totalAmount;
+    });
+
+    if (combinedSummary[null]) delete combinedSummary[null]
+    
+    return Object.values(combinedSummary).sort((a, b) => new Date(a.payment_date) - new Date(b.payment_date));
+  }
 }
 
 export default WorkingService
