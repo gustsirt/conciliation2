@@ -5,7 +5,7 @@ import FileUpload from '../Component/FileUpload/FileUpload.jsx';
 import TableInit from '../Component/Tables/TableInit.jsx';
 
 const Table01 = () => {
-  const { backendFilter01, setBackendFilter01 } = useContext(ContextFiles)
+  const { backendFilter01, setBackendFilter01 } = useContext(ContextFiles);
   
   // BackEnd Configuration
   const backend = {

@@ -34,5 +34,5 @@ app.use(handleResponses)
 app.use(appRouter);
 
 app.listen(port, () => {
-  logger.info(`Server running on port ${port}`);
+  logger.info(`Server running on port: ${port}`);
 })
