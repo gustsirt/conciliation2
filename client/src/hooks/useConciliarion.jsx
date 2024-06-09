@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import useFetchService from './useFetchService.jsx';
+import { ContextConfig } from '../Context/ContextConfig.jsx';
 
 const useConciliation = (backendFilter01, backendFilter02) => {
   const { postData, deleteData } = useFetchService();
   const [linking, setLinking] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const {refresh, setRefresh} = useContext(ContextConfig)
 
   const handleLink = async () => {
     setLinking(true);
@@ -52,7 +53,6 @@ const useConciliation = (backendFilter01, backendFilter02) => {
 
   return {
     linking,
-    refresh,
     handleLink,
     handleClean,
     marking,
