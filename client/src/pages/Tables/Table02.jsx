@@ -1,5 +1,5 @@
-import TableComponent from '../Component/Tables/TableComponent.jsx';
-import useTableConfig from '../Config/useTableConfig.jsx';
+import TableComponent from '../../Component/Tables/TableComponent.jsx';
+import useTableConfig from '../../Config/useTableConfig.jsx';
 
 const Table02 = () => {
   const { config: tableConfig } = useTableConfig('table02')

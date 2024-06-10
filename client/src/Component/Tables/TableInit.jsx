@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useFetchService from '../../hooks/useFetchService.jsx'
 import './generalStyles.scss';
-import FilterBESelectors from './FilterBESelectors.jsx';
+import FilterBESelectors from './Helper/FilterBESelectors.jsx';
 import TableBase from './TableDef.jsx';
 import { objToQueryString } from './Helper/objToQueryString.jsx';
 

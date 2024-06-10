@@ -1,5 +1,5 @@
 import { useState } from "react"
-import TableInit from "../Component/Tables/TableInit"
+import TableInit from "../../Component/Tables/TableInit"
 import dayjs from "dayjs"
 
 const Summary = () => {

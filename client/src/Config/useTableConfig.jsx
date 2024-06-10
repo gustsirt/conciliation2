@@ -54,7 +54,9 @@ const useTableConfig = (tableType) => {
             tableOptions: {
               allow: {
                 paginated: true,
+                selectClick: true,
               },
+              handleCellClick: logcell1,
               columns: [
                 {
                   header: 'ID',
@@ -106,6 +108,9 @@ const useTableConfig = (tableType) => {
                 },
               ],
             },
+            crud: {
+              selectedValue: selectedValue1,
+            }
           }
         case 'table02':
           return {
@@ -213,7 +218,7 @@ const useTableConfig = (tableType) => {
               allow: {
                 paginated: true,
                 sort: true,
-                globalFilter: true,
+                globalFilter: true, selectClick: true,
                 selector: true,
               },
               handleCellClick: logcell1,
@@ -274,7 +279,7 @@ const useTableConfig = (tableType) => {
               allow: {
                 paginated: true,
                 sort: true,
-                globalFilter: true,
+                globalFilter: true, selectClick: true,
                 selector: true,
               },
               handleCellClick: logcell2,
