@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useFetchService from "../hooks/useFetchService";
+import useFetchService from "../../hooks/useFetchService";
 import { useForm } from 'react-hook-form';
 
 const CrudForm = () => {

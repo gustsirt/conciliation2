@@ -2,7 +2,8 @@ import TableComponent from '../../Component/Tables/TableComponent.jsx';
 import useTableConfig from '../../Config/useTableConfig.jsx';
 
 const Table02 = () => {
-  const { config: tableConfig } = useTableConfig('table02')
+  const { config, rowSelection2 } = useTableConfig()
+  const tableConfig = config.table02
 
   return (
     <TableComponent

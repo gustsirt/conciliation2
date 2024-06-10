@@ -10,9 +10,10 @@ const Compare = () => {
   const { backendFilter01, backendFilter02} = useContext(ContextFiles) // se pasa parametro
   const { linking, handleLink, handleClean, marking, unmarking } = useConciliation(backendFilter01, backendFilter02);
   
-  const { config: table00} = useTableConfig('compareSummary')
-  const { config: table01, rowSelection1} = useTableConfig('compareTable01')
-  const { config: table02, rowSelection2} = useTableConfig('compareTable02')
+  const { config, rowSelection1, rowSelection2 } = useTableConfig()
+  const table00 = config.compareSummary;
+  const table01 = config.compareTable01
+  const table02 = config.compareTable02
 
   // useEffect(()=>{
   //   console.log("tabla 1: ",rowSelection1);
