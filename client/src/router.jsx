@@ -4,11 +4,11 @@ import { Navigate, createHashRouter } from 'react-router-dom';
 import Layout from './pages/Layout/Layout.jsx';
 import Home from './pages/Home.jsx';
 import ErrorPage from './pages/Error/Error.jsx';
-import Table01 from './pages/Table01.jsx';
-import Table02 from './pages/Table02.jsx';
+import Table01 from './pages/Tables/Table01.jsx';
+import Table02 from './pages/Tables/Table02.jsx';
 import Compare from './pages/Compare/Compare02.jsx';
+import Summary from './pages/Tables/Summary.jsx';
 import Colores from './pages/temporal/Colores.jsx';
-import Summary from './pages/Summary.jsx';
 
 const router = createHashRouter([
   // createBrowserRouter reemplazaria --> createHashRouter (se pone hash para que lo tome github pages)

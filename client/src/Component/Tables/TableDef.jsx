@@ -20,6 +20,7 @@ const TableBase = ({ data, options}) => {
   const sendRowSelection = isSelection && options.setRowSelection || undefined;
   const [rowSelection, setRowSelection] = useState({});
 
+  const permitSelectClick = allow.selectClick === true;
   const handleClick = handleCellClick || (() => { });
   const tableRef = useRef(null); // se usa para limpiar filtro global
 
@@ -155,7 +156,7 @@ const TableBase = ({ data, options}) => {
                   row.getVisibleCells().map(cell => (
                     <td key={cell.id}
                       className={cell.column.columnDef.className}
-                      onClick={isGlobalFiltered ? () => handleClick(row, cell.column) : undefined}
+                      onClick={permitSelectClick ? () => handleClick(row, cell.column) : undefined}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
