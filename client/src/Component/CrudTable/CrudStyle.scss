@@ -4,7 +4,12 @@
   justify-content: center;
   gap: 0.3em;
 
-  div label {
-    margin-right: 0.5em;
+  div {
+    label {
+      margin-right: 0.5em;
+    }
+    p{
+      font-style: italic;
+    }
   }
 }

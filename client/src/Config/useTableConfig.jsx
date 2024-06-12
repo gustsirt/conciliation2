@@ -21,25 +21,25 @@ const useTableConfig = (tableType) => {
 
   const logrow1 = async (row, column) => setSelectedValue1(getValues(row, column))
   const dataSchema01 = {
-    _id: 'text',
-    service: 'text',
-    business_number: 'text',
-    flag: 'text',
-    type: 'text',
-    batch: 'number',
-    number: 'number',
-    last_4_number: 'number',
-    installment: 'number',
-    presentation_date: 'date',
-    origin_date: 'date',
-    payment_date: 'date',
-    payment_month: 'number',
-    description: 'text',
-    amount: 'number',
-    sign: 'number',
-    atCreated: 'date',
-    lastupdate: 'date',
-    userupdate: 'text',
+    _id:               { type: "String", label: 'ID',                             comments: 'Automatico', },
+    service:           { type: "String", label: 'Servicio',       required: true, comments: 'Empresa proveedora', },
+    business_number:   { type: "String", label: 'N° de comercio', required: true, comments: '', },
+    flag:              { type: "String", label: 'Bandera',        required: true, comments: 'Ej: Visa' },
+    type:              { type: "String", label: 'Tipo',           required: true, comments: 'c (credito) o d (debito)', },
+    batch:             { type: "Number", label: 'Lote',           required: true, comments: '', },
+    number:            { type: "Number", label: 'Numero',         required: true, comments: '', },
+    last_4_number:     { type: "Number", label: 'Tarjeta',        required: true, comments: '', },
+    installment:       { type: "Number", label: 'Cuotas',         required: true, comments: '', },
+    presentation_date: { type: "Date",   label: 'F. Presentación',required: true, comments: '', },
+    origin_date:       { type: "Date",   label: 'F. de Origen',   required: true, comments: '', },
+    payment_date:      { type: "Date",   label: 'F. Pago',        required: true, comments: '', },
+    payment_month:     { type: "Number", label: 'Mes de pago',    required: true, comments: '', },
+    description:       { type: "String", label: 'Descripción',    required: true, comments: '', },
+    amount:            { type: "Number", label: 'Monto',          required: true, comments: '', },
+    sign:              { type: "Number", label: 'Signo',          required: true, comments: '+ = 1 y - = -1' },
+    atCreated:         { type: "Date",   label: 'F. Creación',                    comments: '', default: Date.now, },
+    lastupdate:        { type: "Date",   label: 'Actualización',  required: true, comments: '', default: Date.now,},
+    userupdate:        { type: "String", label: 'Usuario',        required: true, comments: '', default: "Admin",}
   };
 
   // Filas Seleccionadas
@@ -95,7 +95,7 @@ const useTableConfig = (tableType) => {
         crud: {
           selectedValue: selectedValue1,
           setSelectedValue: setSelectedValue1,
-          dataSchema: dataSchema01
+          dataSchema: dataSchema01,
         }
       },
       table02: {
