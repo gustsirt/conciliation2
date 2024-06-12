@@ -8,10 +8,6 @@ const Table01 = () => {
   const { config } = useTableConfig()
   const tableConfig = config.table01
 
-  useEffect(()=>{
-    console.log(tableConfig.crud.selectedValue);
-  },[tableConfig.crud.selectedValue])
-
   return (
     <div className='page-row'>
       <TableComponent
@@ -21,7 +17,9 @@ const Table01 = () => {
       />
       <CrudTable 
         selectedValue = {tableConfig.crud.selectedValue}
+        setSelectedValue = {tableConfig.crud.setSelectedValue}
         columns = {tableConfig.tableOptions.columns}
+        dataSchema = {tableConfig.crud.dataSchema}
       />
     </div>
   );

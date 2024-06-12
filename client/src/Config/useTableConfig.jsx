@@ -13,11 +13,25 @@ const useTableConfig = (tableType) => {
   // Valores de celda seleccionada
   const [selectedValue1, setSelectedValue1] = useState({}); 
   const [selectedValue2, setSelectedValue2] = useState({});
-  const {getValuesLimited} = useTableSimple(["flag", "origin_date", "batch", "number", "amount"])
+  const {getValues, getValuesLimited} = useTableSimple(["flag", "origin_date", "batch", "number", "amount"])
 
   // configura posibles valores tomados para filtrar ------------
   const logcell1 = async (row, column) => setSelectedValue1(getValuesLimited(row, column))
   const logcell2 = async (row, column) => setSelectedValue2(getValuesLimited(row, column))
+
+  const logrow1 = async (row, column) => setSelectedValue1(getValues(row, column))
+  const dataSchema01 = {
+    service: 'text',
+    business_number: 'text',
+    flag: 'text',
+    type: 'text',
+    batch: 'number',
+    origin_date: 'date',
+    batch: 'number',
+    number: 'number',
+    amount: 'number',
+    payment_date: 'date'
+  };
 
   // Filas Seleccionadas
   const [rowSelection1, setRowSelection1] = useState([]);
@@ -53,7 +67,7 @@ const useTableConfig = (tableType) => {
             paginated: true,
             selectClick: true,
           },
-          handleCellClick: logcell1,
+          handleCellClick: logrow1,
           columns: [
             { header: 'ID',        accessorKey: '_id',             format: 'text',
               cell: ({ row }) => (row.original._id ? row.original._id.slice(-5) : ''), },
@@ -71,6 +85,8 @@ const useTableConfig = (tableType) => {
         },
         crud: {
           selectedValue: selectedValue1,
+          setSelectedValue: setSelectedValue1,
+          dataSchema: dataSchema01
         }
       },
       table02: {
