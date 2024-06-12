@@ -26,11 +26,19 @@ const useTableConfig = (tableType) => {
     flag: 'text',
     type: 'text',
     batch: 'number',
-    origin_date: 'date',
-    batch: 'number',
     number: 'number',
+    last_4_number: 'number',
+    installment: 'number',
+    presentation_date: 'date',
+    origin_date: 'date',
+    payment_date: 'date',
+    payment_month: 'number',
+    description: 'text',
     amount: 'number',
-    payment_date: 'date'
+    sign: 'number',
+    atCreated: 'date',
+    lastupdate: 'date',
+    userupdate: 'text',
   };
 
   // Filas Seleccionadas

@@ -2,9 +2,9 @@ import { Schema, model } from 'mongoose'
 
 export const fileSchema = Schema({
   service:            { type: String,  required: true }, // empresa proveedora
+  business_number:    { type: String,  required: true }, // n comercio
   flag:               { type: String,  required: true }, // visa
   type:               { type: String,  required: true }, // c credito o d debito
-  business_number:    { type: String,  required: true }, // n comercio
   batch:              { type: Number,  required: true }, // lote
   number:             { type: Number,  required: true }, // comprobante
   last_4_number:      { type: Number,  required: true },
