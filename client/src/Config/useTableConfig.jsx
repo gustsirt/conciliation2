@@ -21,6 +21,7 @@ const useTableConfig = (tableType) => {
 
   const logrow1 = async (row, column) => setSelectedValue1(getValues(row, column))
   const dataSchema01 = {
+    _id: 'text',
     service: 'text',
     business_number: 'text',
     flag: 'text',
