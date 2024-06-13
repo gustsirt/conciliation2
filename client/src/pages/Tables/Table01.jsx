@@ -18,7 +18,6 @@ const Table01 = () => {
       <CrudTable 
         selectedValue = {tableConfig.crud.selectedValue}
         setSelectedValue = {tableConfig.crud.setSelectedValue}
-        columns = {tableConfig.tableOptions.columns}
         dataSchema = {tableConfig.crud.dataSchema}
       />
     </div>
