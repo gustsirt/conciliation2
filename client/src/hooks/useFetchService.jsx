@@ -23,6 +23,7 @@ const useFetchService = () => {
   };
 
   const postData = async (endpoint, body) => {
+    if (!body) { return { isError: true, message: "Falta el dato a actualizar" }; }
     try {
       setLoading(true);
       const response = await fetch(`${baseUrl}/${endpoint}`, {

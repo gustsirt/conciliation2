@@ -5,6 +5,7 @@ export default class Data01DaoMongo extends DaoMongo {
   constructor() {
     super(data)
   }
+
   createMany = async (newElements) => await this.model.insertMany(newElements)
 
   getMonths = async (field) => {

@@ -6,6 +6,17 @@ export default class Data01Controller extends CustomController {
     super(data01Service, ['service', 'flag', 'business_number', 'payment_month', 'meetings']);
   }
 
+  create = async (req, res) => {
+    const newElement = req.body
+    try {
+      const element = await this.service.create(newElement);
+      res.sendSuccess(element)
+    } catch (error) {
+      console.log(error);
+      res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+
   createfromFile = async (req, res) => {
     try {
       const file = req.file;

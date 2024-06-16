@@ -38,8 +38,8 @@ const useTableConfig = (tableType) => {
     amount:            { type: "Number", label: 'Monto',          required: true, },
     sign:              { type: "Number", label: 'Signo',          required: true, enum: [1, -1], comments: '+ = 1 y - = -1' },
     atCreated:         { type: "Date",   label: 'F. Creación',                    default: Date.now, disabled: true},
-    lastupdate:        { type: "Date",   label: 'Actualización',  required: true, default: Date.now, disabled: true},
-    userupdate:        { type: "String", label: 'Usuario',        required: true, default: "Admin",  disabled: true},
+    lastupdate:        { type: "Date",   label: 'Actualización',                  default: Date.now, disabled: true},
+    userupdate:        { type: "String", label: 'Usuario',                        default: "Admin",  disabled: true},
   };
 
   // Filas Seleccionadas

@@ -19,6 +19,7 @@ const Table01 = () => {
         selectedValue = {tableConfig.crud.selectedValue}
         setSelectedValue = {tableConfig.crud.setSelectedValue}
         dataSchema = {tableConfig.crud.dataSchema}
+        apiEndpoint = {tableConfig.backend.endpoint}
       />
     </div>
   );
