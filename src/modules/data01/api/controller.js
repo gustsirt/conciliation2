@@ -29,6 +29,7 @@ export default class Data01Controller extends CustomController {
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
+  
   getMonths = async (req, res) => {
     const { datefield } = req.params
     try {

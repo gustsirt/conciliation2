@@ -11,7 +11,6 @@ const configEnv = {
   app_name: process.env.APP_NAME,
   port: process.env.PORT,
   jwt_code: process.env.JWT_SECRET_CODE,
-  cookies_code: process.env.COOKIES_SECRET_CODE,
   persistence: process.env.PERSISTENCE,
   mongo_uri: process.env.MONGO_URI,
   uadmins: process.env.USERS_ADMIN,
