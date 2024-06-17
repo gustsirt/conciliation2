@@ -46,18 +46,22 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
   };
   
   const onSubmit = async (data) => {
+    const transformedData = { ...data };
+    Object.keys(dataSchema).forEach(key => {
+      if (maptypes[dataSchema[key].type] === 'date' && transformedData[key]) {
+        transformedData[key] = dayjs(transformedData[key]).toISOString();
+      }
+    });
+
     if (!data._id) { // Lógica para enaviar --> CREATE
-      const newData = data
-      delete newData._id
-      delete newData.atCreated
-      delete newData.lastupdate
-      delete newData.userupdate
-      delete newData.__v
-      newData.origin_date = dayjs(newData.origin_date).toISOString();
-      newData.payment_date = dayjs(newData.payment_date).toISOString();
-      newData.presentation_date = dayjs(newData.presentation_date).toISOString();
+      delete transformedData._id;
+      delete transformedData.atCreated;
+      delete transformedData.lastupdate;
+      delete transformedData.userupdate;
+      delete transformedData.__v;
+
       try {
-        const response = await postData(apiEndpoint, newData);
+        const response = await postData(apiEndpoint, transformedData);
         if (!response.isError) {
           handleReset()
           setRefresh(prev => !prev)
@@ -70,15 +74,10 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
         setTimeout(() => { setError('') }, 3000);
       }
     } else { // Lógica para actualizar --> UPDATE
-      const updateData = data
-      updateData.origin_date = dayjs(updateData.origin_date).toISOString();
-      updateData.payment_date = dayjs(updateData.payment_date).toISOString();
-      updateData.presentation_date = dayjs(updateData.presentation_date).toISOString();
-      updateData.atCreated = dayjs(updateData.atCreated).toISOString();
-      updateData.lastupdate = dayjs().toISOString();
+      transformedData.lastupdate = dayjs().toISOString();
 
       try {
-        const response = await putData(`${apiEndpoint}${updateData._id}`, updateData);
+        const response = await putData(`${apiEndpoint}${transformedData._id}`, transformedData);
         if (!response.isError) {
           handleReset();
           setRefresh(prev => !prev);
@@ -94,15 +93,7 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
   };
 
   const handleCleanId = () => {
-    // console.log('Inicial: ',selectedValue);
-    const showData = selectedValue
-
-    showData._id = ''
-    showData.atCreated = ''
-    showData.lastupdate = ''
-    showData.userupdate = ''
-
-    // console.log('Final: ',{...showData});
+    const showData = { ...selectedValue, _id: '', atCreated: '', lastupdate: '', userupdate: '' };
     setFileData({...showData})
     const formattedFile = showData;
     Object.keys(dataSchema).forEach(key => {
@@ -114,13 +105,10 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
   }
 
   const handleDelete = async (data) => {
-    // console.log(data);
     if (!data._id) {
       setError('No se selecciono valor a eliminar') 
       setTimeout(() => { setError('') }, 3000);
     } else {
-      // console.log("Elimnando: ", data._id);
-      // console.log(`${apiEndpoint}${data._id}`);
       try {
         const response = await deleteData(`${apiEndpoint}${data._id}`);
         // console.log(response);

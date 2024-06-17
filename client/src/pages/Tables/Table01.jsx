@@ -2,7 +2,6 @@ import useTableConfig from '../../Config/useTableConfig.jsx';
 import TableComponent from '../../Component/Tables/TableComponent.jsx';
 import CrudTable from '../../Component/CrudTable/CrudTable.jsx';
 import './tables.scss';
-import { useEffect } from 'react';
 
 const Table01 = () => {
   const { config } = useTableConfig()
@@ -16,10 +15,10 @@ const Table01 = () => {
         tableOptions  = {tableConfig.tableOptions}
       />
       <CrudTable 
-        selectedValue = {tableConfig.crud.selectedValue}
+        selectedValue    = {tableConfig.crud.selectedValue}
         setSelectedValue = {tableConfig.crud.setSelectedValue}
-        dataSchema = {tableConfig.crud.dataSchema}
-        apiEndpoint = {tableConfig.backend.endpoint}
+        dataSchema       = {tableConfig.crud.dataSchema}
+        apiEndpoint      = {tableConfig.backend.endpoint}
       />
     </div>
   );

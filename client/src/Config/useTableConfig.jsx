@@ -20,6 +20,8 @@ const useTableConfig = (tableType) => {
   const logcell2 = async (row, column) => setSelectedValue2(getValuesLimited(row, column))
 
   const logrow1 = async (row, column) => setSelectedValue1(getValues(row, column))
+  const logrow2 = async (row, column) => setSelectedValue2(getValues(row, column))
+
   const dataSchema01 = {
     _id:               { type: "String", label: 'ID',                             comments: 'Automatico', disabled: true},
     service:           { type: "String", label: 'Servicio',       required: true, enum: ['Prisma', 'Payway', 'MercadoPago'], comments: 'Empresa proveedora', },
@@ -40,6 +42,24 @@ const useTableConfig = (tableType) => {
     atCreated:         { type: "Date",   label: 'F. Creación',                    default: Date.now, disabled: true},
     lastupdate:        { type: "Date",   label: 'Actualización',                  default: Date.now, disabled: true},
     userupdate:        { type: "String", label: 'Usuario',                        default: "Admin",  disabled: true},
+  };
+  const dataSchema02 = {
+    _id:               { type: "String", label: 'ID',                           comments: 'Automatico', disabled: true},
+    flag:              { type: "String", label: 'Bandera',      required: true, comments: 'Ej: Visa',
+      enum: ['visa', 'master', 'naranjax', 'mercadopago', 'cabal'],  },
+    type:              { type: "String", label: 'Tipo',         required: true, enum: ['c', 'd'], comments: 'c (credito) o d (debito)' },
+    batch:             { type: "Number", label: 'Lote',         required: true, },
+    number:            { type: "Number", label: 'Número',       required: true, },
+    card_plan:         { type: "String", label: 'Plan',         required: true, comments: '1 pago, débito, etc.' },
+    installment:       { type: "Number", label: 'Cuotas',       required: true, },
+    origin_date:       { type: "Date",   label: 'F. de Origen', required: true, default: Date(), },
+    id_client:         { type: "String", label: 'DNI',                          default: "", },
+    client:            { type: "String", label: 'Cliente',                      default: "", },
+    amount:            { type: "Number", label: 'Monto',        required: true, },
+    sign:              { type: "Number", label: 'Signo',        required: true, enum: [1, -1], comments: '+ = 1 y - = -1' },
+    atCreated:         { type: "Date",   label: 'F. Creación',                  default: Date.now, disabled: true, },
+    lastupdate:        { type: "Date",   label: 'Actualización',                default: Date.now, disabled: true, },
+    userupdate:        { type: "String", label: 'Usuario',                      default: "Admin",  disabled: true, },
   };
 
   // Filas Seleccionadas
@@ -104,14 +124,16 @@ const useTableConfig = (tableType) => {
           endpoint: apiEndpoints.t02,
           endpointfilter: apiEndpoints.t02,
           filter: backendFilter02,
-          setFilter: () => setBackendFilter02,
+          setFilter: setBackendFilter02,
           allowedUpload: true,
           allowedFilters: ['flag'],
         },
         tableOptions: {
           allow: {
-            paginated: true
+            paginated: true,
+            selectClick: true,
           },
+          handleCellClick: logrow2,
           columns: [
             { header: 'ID',        accessorKey: '_id',             format: 'text',
               cell: ({ row }) => (row.original._id ? row.original._id.slice(-5) : ''), },
@@ -124,6 +146,11 @@ const useTableConfig = (tableType) => {
             { header: 'Cliente',   accessorKey: 'client',          format: 'text',     },
           ],
         },
+        crud: {
+          selectedValue: selectedValue2,
+          setSelectedValue: setSelectedValue2,
+          dataSchema: dataSchema02,
+        }
       },
       compareSummary: {
         backend: {

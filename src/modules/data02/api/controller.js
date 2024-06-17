@@ -1,7 +1,7 @@
 import CustomController from "../../../libraries/customs/controller.js";
 import data02Service from "../logic/service.js";
 
-export default class Data01Controller extends CustomController {
+export default class Data02Controller extends CustomController {
   constructor() {
     super(data02Service, ['flag', 'meetings']);
   }
