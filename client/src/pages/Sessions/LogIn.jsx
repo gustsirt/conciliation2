@@ -1,9 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import useFetchService from "../../hooks/useFetchService.jsx";
 import { ContextUser } from '../../Context/ContextUsers.jsx';
+import "./useraccess.scss"
+import { toast } from "react-toastify";
 
 const LogIn = () => {
+  const [error, setError] = useState("")
   const { postData } = useFetchService()
   // const { messageAndRedirect } = useSwalAlert()
   const { setToken } = useContext(ContextUser)
@@ -17,19 +20,20 @@ const LogIn = () => {
   });
   
   const onSubmit = async data => {
-    try {
-      const resp = await postData("api/sessions/login", data)
-      console.log(resp);
-      if(resp?.isError === false) {
-        const token = resp.payload.token;
-        setToken(`Bearer ${token}`)
-        // messageAndRedirect(resp.message, "success", "/products/")
-      } else {
-        // messageAndRedirect("Acceso no autorizado", "error")
-      }
-    } catch (error) {
-      // messageAndRedirect("Acceso no autorizado por un error en el sistema", "error")
-    }
+    toast('Prueba')
+    // try {
+    //   const resp = await postData("api/sessions/login", data)
+    //   console.log(resp);
+    //   if(resp?.isError === false) {
+    //     const token = resp.payload.token;
+    //     setToken(`Bearer ${token}`)
+    //     // messageAndRedirect(resp.message, "success", "/products/")
+    //   } else {
+    //     // messageAndRedirect("Acceso no autorizado", "error")
+    //   }
+    // } catch (error) {
+    //   // messageAndRedirect("Acceso no autorizado por un error en el sistema", "error")
+    // }
   };
 
   return (

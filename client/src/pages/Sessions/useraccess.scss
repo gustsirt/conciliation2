@@ -1,16 +1,16 @@
 @import '../../styles/variables';
 
-$cback: $ccla7;
-$cinput-border: $cgris5;
+$cback: $clgt7;
+$cinput-border: $cgrey5;
 
-$bot-csubmit-ok: $cnegro;
-$bot-csubmit-ok-font: $cblanco;
+$bot-csubmit-ok: $cblack;
+$bot-csubmit-ok-font: $cwhite;
 $bot-csubmit-hover: $color;
-$bot-csubmit-disable: $cgris3;
+$bot-csubmit-disable: $cgrey3;
 
 $font-alert: red;
 
-$recovery-clink: $cosc2;
+$recovery-clink: $cdrk2;
 
 .form-container-vert {
   margin: auto;
@@ -70,6 +70,6 @@ $recovery-clink: $cosc2;
   color: $recovery-clink;
 }
 .recovery-link:hover{
-  color: $cnegro;
+  color: $bot-csubmit-ok;
   filter: drop-shadow(0 1px 1px grey);
 }
