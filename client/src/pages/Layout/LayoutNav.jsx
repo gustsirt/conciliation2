@@ -42,6 +42,28 @@ const LayoutNav = ({user}) => {
   useEffect(() => {
     setIsPublic(!user);
   }, [user]);
+  // useEffect( () => {
+  //   const getUser = async () => {
+  //     try {
+  //       const resp = await fetchTData('api/sessions/user')
+  //       if (resp?.isError === false) {
+  //         setUser(resp.payload);
+  //       } else {
+  //         throw new Error()
+  //       }
+  //     } catch (error) {
+  //       setUser(null);
+  //       setToken(null);
+  //       localStorage.removeItem('token');
+  //       messageAndRedirect("Error de usuario", "error","/login/");
+  //     }
+  //   }
+  //   if (token) {
+  //     getUser()
+  //   } else {
+  //     setUser(null);
+  //   }
+  // }, [token, updateUser])
   
   return (
     <nav className="nav">
