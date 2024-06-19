@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useFetchService from "../../hooks/useFetchService.jsx";
 import { ContextUser } from '../../Context/ContextUsers.jsx';
@@ -6,9 +7,8 @@ import "./useraccess.scss"
 import { toast } from "react-toastify";
 
 const LogIn = () => {
-  const [error, setError] = useState("")
+  const navigate = useNavigate();
   const { postData } = useFetchService()
-  // const { messageAndRedirect } = useSwalAlert()
   const { setToken } = useContext(ContextUser)
   
   const { register, handleSubmit } = useForm({
@@ -20,20 +20,21 @@ const LogIn = () => {
   });
   
   const onSubmit = async data => {
-    toast('Prueba')
-    // try {
-    //   const resp = await postData("api/sessions/login", data)
-    //   console.log(resp);
-    //   if(resp?.isError === false) {
-    //     const token = resp.payload.token;
-    //     setToken(`Bearer ${token}`)
-    //     // messageAndRedirect(resp.message, "success", "/products/")
-    //   } else {
-    //     // messageAndRedirect("Acceso no autorizado", "error")
-    //   }
-    // } catch (error) {
-    //   // messageAndRedirect("Acceso no autorizado por un error en el sistema", "error")
-    // }
+    try {
+      const resp = await postData("api/users/login", data)
+      console.log(resp);
+      if(resp?.isError === false) {
+        const token = resp.data.token;
+        setToken(`Bearer ${token}`)
+        toast.success("Te has logueado con exito!")
+        setTimeout( () => { navigate("/table01/", { replace: true }) }, 2000 )
+      } else {
+        toast.error("Acceso no autorizado")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Acceso no autorizado por un error en el sistema")
+    }
   };
 
   return (

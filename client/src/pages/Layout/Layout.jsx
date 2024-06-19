@@ -3,7 +3,7 @@ import './layout.scss'
 
 import LayoutNav from './LayoutNav.jsx';
 import LayoutFooter from './LayoutFooter.jsx';
-import { ToastContainer } from 'react-toastify';
+import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = () => {
@@ -11,16 +11,11 @@ const Layout = () => {
   return (
     <>
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
+        position="bottom-right"
+        autoClose={3000}
         closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
         pauseOnHover
-        theme="light"
+        transition= {Bounce}
       />
       <header className="header">
         <Link to="/">
