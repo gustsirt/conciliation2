@@ -1,15 +1,16 @@
 import { useContext, useEffect } from 'react';
 import { ContextUser } from '../../Context/ContextUsers.jsx';
-// import useSwalAlert from '../../hook/useSwalAlert.jsx';
+import { useNavigate } from 'react-router';
 
 const Logout = () => {
+  const navigate = useNavigate();
   const { setToken } = useContext(ContextUser);
-  // const { messageAndRedirect } = useSwalAlert()
   
   useEffect(() => {
     setToken(null);
     localStorage.removeItem('token');
-    // messageAndRedirect("Has cerrado sessión", "success", "/")
+    toast.success("Has cerrado sessión")
+    setTimeout( () => { navigate("/", { replace: true }) }, 2000 )
   }, []);
 
   return null;

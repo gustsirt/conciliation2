@@ -47,6 +47,7 @@ const LogIn = () => {
         <input type="password" {...register("password", { required: true})} />
         <button type="submit">Iniciar Sesión</button>
       </form>
+      <p>Hacer el un config dinamico para nav + rutas</p>
     </div>
   )
 }
