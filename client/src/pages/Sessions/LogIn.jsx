@@ -1,15 +1,14 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import useFetchService from "../../hooks/useFetchService.jsx";
 import { ContextUser } from '../../Context/ContextUsers.jsx';
 import "./useraccess.scss"
-import { toast } from "react-toastify";
+import useToast from "../../hooks/useToast.jsx";
 
 const LogIn = () => {
-  const navigate = useNavigate();
   const { postData } = useFetchService()
   const { setToken } = useContext(ContextUser)
+  const { toastSucess, toastError } = useToast()
   
   const { register, handleSubmit } = useForm({
     mode: "onBlur",
@@ -26,14 +25,12 @@ const LogIn = () => {
       if(resp?.isError === false) {
         const token = resp.data.token;
         setToken(`Bearer ${token}`)
-        toast.success("Te has logueado con exito!")
-        setTimeout( () => { navigate("/table01/", { replace: true }) }, 2000 )
+        toastSucess("Te has logueado con exito!", "/table01/")
       } else {
-        toast.error("Acceso no autorizado")
+        toastError("Acceso no autorizado")
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Acceso no autorizado por un error en el sistema")
+      toastError("Acceso no autorizado por un error en el sistema")
     }
   };
 

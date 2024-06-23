@@ -13,4 +13,12 @@ export default class UserDaoMongo extends DaoMongo{
     }
     return await query;
   };
+
+  getBy = async (filter, excludePassword = true) => {
+    const query = await this.model.findOne(filter)
+    if (excludePassword) {
+      query.select('-password');
+    }
+    return await query;
+  }
 }

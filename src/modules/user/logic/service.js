@@ -11,6 +11,9 @@ class UsersRepository extends CustomService {
     this.admin_pass = configObject.uadmin_pass
   }
 
+  get = async (filter, excludePassword = true )  => await this.dao.get   (filter, excludePassword)
+  getBy = async (filter, excludePassword = true) => await this.dao.getBy (filter, excludePassword)
+
   register = async (userData) => {
     userData.password = await createHashAsync(userData.password)
     const userFound = await this.dao.getBy({email: userData.email});

@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
+import { useContext } from 'react';
+import { ContextUser } from '../../Context/ContextUsers';
+import useToast from '../../hooks/useToast';
+import useFetchTokenService from '../../hooks/useFetchTokenService';
 
-const LayoutNav = ({user}) => {
+const LayoutNav = () => {
+  const { user, setUser, token, setToken } = useContext(ContextUser)
+  const { fetchTData } = useFetchTokenService()
+  const { toastSucess, toastError } = useToast()
 
   const [isPublic, setIsPublic] = useState(!user)
   const [navItems, setNavItems] = useState([
@@ -39,31 +46,32 @@ const LayoutNav = ({user}) => {
     }
   ])
 
-  useEffect(() => {
-    setIsPublic(!user);
-  }, [user]);
-  // useEffect( () => {
-  //   const getUser = async () => {
-  //     try {
-  //       const resp = await fetchTData('api/sessions/user')
-  //       if (resp?.isError === false) {
-  //         setUser(resp.payload);
-  //       } else {
-  //         throw new Error()
-  //       }
-  //     } catch (error) {
-  //       setUser(null);
-  //       setToken(null);
-  //       localStorage.removeItem('token');
-  //       messageAndRedirect("Error de usuario", "error","/login/");
-  //     }
-  //   }
-  //   if (token) {
-  //     getUser()
-  //   } else {
-  //     setUser(null);
-  //   }
-  // }, [token, updateUser])
+
+  useEffect( () => {
+    const getUser = async () => {
+      try {
+        const resp = await fetchTData('api/sessions/user')
+        if (resp?.isError === false) {
+          console.log(resp);
+          setUser(resp.payload);
+          console.log(user);
+        } else {
+          throw new Error()
+        }
+      } catch (error) {
+        console.log(error);
+        //setUser(null);
+        //setToken(null);
+        //localStorage.removeItem('token');
+        //toast.error("Error de usuario")
+      }
+    }
+    if (token) {
+      getUser()
+    } else {
+      setUser(null);
+    }
+  }, [token])
   
   return (
     <nav className="nav">
