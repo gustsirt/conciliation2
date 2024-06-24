@@ -26,8 +26,9 @@ export default class UsersController extends CustomController {
       const {name, token} = await this.service.login(userData)
       res.sendSuccess({token}, "Log In exitoso con: " + name);
     } catch (error) {
+      console.log(error);
       req.logger.error(error);
-      res.sendCatchError(error, error.getMessage())
+      res.sendCatchError(error)
     }
   }
 
