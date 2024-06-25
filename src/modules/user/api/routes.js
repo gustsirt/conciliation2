@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UsersController from "./controller.js";
+import { handleAuth } from "../../../middleware/handlePolicies.js";
 
 const router = Router();
 const uControl = new UsersController();
@@ -11,7 +12,9 @@ router
   .delete('/:eid', uControl.deleteId)  //falta eliminar usuario
 
 router
+  .get ('/current', handleAuth(['USER']), uControl.getUserSession)
   .post('/register', uControl.register)
   .post('/login', uControl.login)
+
 
   export default router

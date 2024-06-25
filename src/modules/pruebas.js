@@ -3,7 +3,7 @@ import { handleAuth } from "../middleware/handlePolicies.js";
 
 const router = Router();
 
-const access = ['PUBLIC']
+const access = ['USER']
 
 //http://localhost:8080/api/pruebas
 router

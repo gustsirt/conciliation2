@@ -32,7 +32,7 @@ class UsersRepository extends CustomService {
       }
     }
     // User Verification
-    const userFound = await this.dao.getBy({email: userData.email});
+    const userFound = await this.dao.getBy({email: userData.email}, false);
     if (!userFound || !isValidPasswordAsync(userData.password, userFound)) {
       throw new Error(`Email o contraseña equivocado`);
     }

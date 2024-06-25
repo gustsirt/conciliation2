@@ -12,7 +12,7 @@ export default class Data02Controller extends CustomController {
       const user = req.user || null;
 
       // Convierte el archivo CSV en un objeto JavaScript
-      const data = await this.service.fileToObject(file, "Estado", "ACREDITADO", user)
+      const data = await this.service.fileToObject(file, "Estado", "ACREDITADO", user.first_name)
       // Separa los datos nuevos de lo ya incorporados en la Base de Datos
       const filterFields = ['flag', 'batch', 'number', 'origin_date', 'amount', 'client'];
       const { newDataToCreate } = await this.service.checkExistingData(data, filterFields);

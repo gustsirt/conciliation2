@@ -12,7 +12,7 @@ export default class Data01Controller extends CustomController {
       const user = req.user || null;
 
       // Convierte el archivo CSV en un objeto JavaScript
-      const data = await this.service.fileToObject(file, "DETALLE", "Ajuste", user)
+      const data = await this.service.fileToObject(file, "DETALLE", "Ajuste", user.first_name)
       
       // Separa los datos nuevos de lo ya incorporados en la Base de Datos
       const filterFields = ['business_number', 'batch', 'number', 'last_4_number', 'origin_date', 'payment_date', 'amount'];

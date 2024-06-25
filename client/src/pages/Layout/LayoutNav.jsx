@@ -50,20 +50,17 @@ const LayoutNav = () => {
   useEffect( () => {
     const getUser = async () => {
       try {
-        const resp = await fetchTData('api/sessions/user')
+        const resp = await fetchTData('api/users/current')
         if (resp?.isError === false) {
-          console.log(resp);
-          setUser(resp.payload);
-          console.log(user);
+
+          setUser(resp.data);
         } else {
           throw new Error()
         }
       } catch (error) {
-        console.log(error);
-        //setUser(null);
-        //setToken(null);
-        //localStorage.removeItem('token');
-        //toast.error("Error de usuario")
+        setToken(null);
+        localStorage.removeItem('token');
+        toast.error("Error de usuario")
       }
     }
     if (token) {
@@ -71,6 +68,7 @@ const LayoutNav = () => {
     } else {
       setUser(null);
     }
+    console.log(user);
   }, [token])
   
   return (
@@ -91,7 +89,7 @@ const LayoutNav = () => {
         <div className="user-widget">
           <div className="user-area">
             <div>
-              <NavLink to="user/">{user.name}</NavLink>
+              <NavLink to="user/">{user.first_name}</NavLink>
               <NavLink to="logout/"><BiLogOut/></NavLink>
             </div>
             <p>Rol: {user.role}</p>
