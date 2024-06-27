@@ -39,7 +39,6 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
     }
   }, [selectedValue, reset, dataSchema]);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFileData({ ...fileData, [name]: value });
@@ -53,7 +52,7 @@ const CrudTable = ({ selectedValue, setSelectedValue, apiEndpoint, dataSchema })
       }
     });
 
-    if (!data._id) { // Lógica para enaviar --> CREATE
+    if (!data._id) { // Lógica para eaviar --> CREATE
       delete transformedData._id;
       delete transformedData.atCreated;
       delete transformedData.lastupdate;

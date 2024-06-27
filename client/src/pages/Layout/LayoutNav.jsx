@@ -68,7 +68,6 @@ const LayoutNav = () => {
     } else {
       setUser(null);
     }
-    console.log(user);
   }, [token])
   
   return (
