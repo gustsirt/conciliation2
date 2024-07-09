@@ -1,10 +1,10 @@
-import validateFields from "../../../libraries/validatefiels.js";
+import validateFields from "../../../libraries/utils/validatefiels.js";
 import CustomController from "../../../libraries/customs/controller.js";
-import usersService from "../logic/service.js";
+import Service from "../logic/service.js";
 
-export default class UsersController extends CustomController {
+export default class Controller extends CustomController {
   constructor() {
-    super(usersService);
+    super(new Service);
     this.requieredfield = {
       register: ['first_name', 'last_name', 'email', 'password'],
       login: ['email', 'password']
@@ -12,24 +12,15 @@ export default class UsersController extends CustomController {
   }
 
   register = async (req, res) => {
-    try {
-      const userData = validateFields(req.body, this.requieredfield.register);
-      await this.service.register(userData)
-      res.sendSuccess({}, "Registro exitoso. Ahora inicia sesión con el usuario registrado")
-    } catch (error) { 
-      res.sendCatchError(error) }
+    const userData = validateFields(req.body, this.requieredfield.register);
+    await this.service.register(userData)
+    res.sendSuccess({}, "Registro exitoso. Ahora inicia sesión con el usuario registrado")
   }
 
   login = async (req, res) => {
     const userData = validateFields(req.body, this.requieredfield.login);
-    try {
-      const {name, token} = await this.service.login(userData)
-      res.sendSuccess({token}, "Log In exitoso con: " + name);
-    } catch (error) {
-      console.log(error);
-      req.logger.error(error);
-      res.sendCatchError(error)
-    }
+    const {name, token} = await this.service.login(userData)
+    res.sendSuccess({token}, "Log In exitoso con: " + name);
   }
 
   logout = async (req, res) => {
@@ -40,23 +31,8 @@ export default class UsersController extends CustomController {
   getUserSession = (req, res) => res.sendSuccess(req.user)
 
   updatePassword = async (req, res, next) => {
-    try {
-      let { password } = req.body
-      await this.service.updatePassword(req.user.id, password)
-      res.sendSuccess("User updated")
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  delete = async ( req, res ) => {
-    try {
-      const { hs } = req.query
-      const element = await this.service.delete(hs);
-      res.sendSuccessOrNotFound(element);
-    } catch (error) {
-      req.logger.error(error);
-      res.sendCatchError(error, "An error occurred in the API request");
-    }
+    let { password } = req.body
+    await this.service.updatePassword(req.user.id, password)
+    res.sendSuccess("Usuario actualizado")
   }
 }

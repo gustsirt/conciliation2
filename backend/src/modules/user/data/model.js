@@ -1,13 +1,24 @@
 import { Schema, model } from 'mongoose'
 
-const usersSchema = new Schema({
-  first_name: {    type: String, label: "Nombre",          required: true },
-  last_name:  {    type: String, label: "Apellido", },
-  email:      {    type: String, label: "Email",           required: true, unique: true },
-  password:   {    type: String, label: "Contraseña",      required: true },
-  role:       {    type: String, label: "Rol",                             enum: ["user", "admin"], default: "user"},
-  lastupdated:{    type: Date,   label: 'Actualización',                   default: Date.now},
-  lastconnection:{ type: Date,   label: 'Ultima conexión',                 default: Date.now},
+const thisSchema = new Schema({
+  first_name:  { type: String, required: true },
+  last_name:   { type: String, },
+  email:       { type: String, required: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Debe completar un email valido'], unique: true },
+  password:    { type: String, required: true },
+  role:        { type: String, enum: ["user", "admin"], default: "user"},
+
+  // data of conection
+  created:     { type: Date,   default: Date.now,  immutable: true, },
+  updated:     { type: Date,   default: Date.now,  },
+  connection:  { type: Date,   default: Date.now,  },
+}, {
+  timestamps: {
+    createdAt: 'created',
+    updatedAt: 'updated'
+  },
 })
 
-export default model('users', usersSchema)
+const dataModel = model('Users', thisSchema)
+
+export default dataModel

@@ -1,9 +1,9 @@
 import DaoMongo from "../../../libraries/customs/dao.mongo.js";
-import usersModel from "./model.js";
+import dataModel from "./model.js";
 
-export default class UserDaoMongo extends DaoMongo{
+export default class ThisDaoMongo extends DaoMongo{
   constructor() {
-    super (usersModel);
+    super (dataModel);
   }
   
   get = async (filter = {}, excludePassword = true) => {

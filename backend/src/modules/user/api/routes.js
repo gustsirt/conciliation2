@@ -1,20 +1,23 @@
 import { Router } from "express";
-import UsersController from "./controller.js";
+import Controller from "./controller.js";
 import { handleAuth } from "../../../middleware/handlePolicies.js";
+import wrapRoutesWithCatchAsync from "../../../libraries/utils/wrapRoutesWithCatchAsync.js";
 
 const router = Router();
-const uControl = new UsersController();
+const controller = new Controller();
 
 //http://localhost:8080/api/users
 router
-  .get ('/', uControl.get)
-  .put('/:eid', uControl.updateId) //falta actualizar usuario
-  .delete('/:eid', uControl.deleteId)  //falta eliminar usuario
+  .get    ('/',         handleAuth(['USER']), controller.get)
+  .put    ('/:eid',     handleAuth(['USER']), controller.updateId) //falta actualizar usuario
+  .delete ('/:eid',     handleAuth(['USER']), controller.deleteId)  //falta eliminar usuario
 
 router
-  .get ('/current', handleAuth(['USER']), uControl.getUserSession)
-  .post('/register', uControl.register)
-  .post('/login', uControl.login)
+  .get    ('/current',  handleAuth(['USER']), controller.getUserSession)
+  .post   ('/register',                       controller.register)
+  .post   ('/login',                          controller.login)
+  .post   ('/logout',   handleAuth(['USER']), controller.logout )
 
+wrapRoutesWithCatchAsync(router)
 
-  export default router
+export default router
