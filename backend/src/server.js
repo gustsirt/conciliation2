@@ -9,6 +9,7 @@ import handleResponses from './middleware/handleResponses.js';
 import initializePassport from './modules/user/config/passport.config.js';
 import passport from 'passport';
 import appRouter from './config/routes.js';
+import { handleEspecificErrors, handleGenericErrors } from './middleware/handleErrors.js';
 
 // App initialization ------------------------------
 const {mode} = program.opts();
@@ -38,6 +39,10 @@ app.use(passport.initialize())
 
 // App Routes --------------------------------
 app.use(appRouter);
+
+// Manejo de errores --------------------------------
+app.use(handleEspecificErrors)
+app.use(handleGenericErrors)
 
 app.listen(port, () => {
   logger.info(`Server running on port: ${port}`);

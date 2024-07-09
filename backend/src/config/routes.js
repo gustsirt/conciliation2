@@ -4,8 +4,6 @@ import fileRoutes02 from "../modules/data02/api/routes.js";
 import dataWork from "../modules/dataWorking/api/routes.js";
 import userRoutes from "../modules/user/api/routes.js";
 import prueba from "../modules/pruebas.js";
-import { handleEspecificErrors, handleGenericErrors } from "../middleware/handleErrors.js";
-
 
 const router = Router();
 
@@ -18,8 +16,8 @@ router
   .use('/api/pruebas', prueba)
   .all('*', (req, res, next) => { next(new AppError(`No se encuentra la url: ${req.originalUrl} en este servidor`, 404)); })
 
-router
-  .use(handleEspecificErrors)
-  .use(handleGenericErrors)
+// router
+//   .use(handleEspecificErrors)
+//   .use(handleGenericErrors)
 
   export default router

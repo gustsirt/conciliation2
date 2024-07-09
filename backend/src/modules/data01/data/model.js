@@ -1,29 +1,34 @@
 import { Schema, model } from 'mongoose'
+import { FLAGS, MONTHS, NUMBER_SIGNS, SERVICES, TYPE_CARDS } from '../../valueList.js';
 
 export const fileSchema = new Schema({
-  service:           { type: String, label: 'Servicio',       required: true, enum: ['Prisma', 'Payway', 'MercadoPago'], comments: 'Empresa proveedora', },
-  business_number:   { type: String, label: 'N° de comercio', required: true, },
-  flag:              { type: String, label: 'Bandera',        required: true, enum: ['visa', 'master', 'naranjax', 'mercadopago', 'cabal'], comments: 'Ej: Visa' },
-  type:              { type: String, label: 'Tipo',           required: true, enum: ['c', 'd'], comments: 'c (credito) o d (debito)', },
-  batch:             { type: Number, label: 'Lote',           required: true, },
-  number:            { type: Number, label: 'Numero',         required: true, },
-  last_4_number:     { type: Number, label: 'Tarjeta',        required: true, match: /^\d{1,4}$/},
-  installment:       { type: Number, label: 'Cuotas',         required: true, },
-  presentation_date: { type: Date,   label: 'F. Presentación',required: true, },
-  origin_date:       { type: Date,   label: 'F. de Origen',   required: true, },
-  payment_date:      { type: Date,   label: 'F. Pago',        required: true, },
-  payment_month:     { type: Number, label: 'Mes de pago',    required: true, enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],},
-  description:       { type: String, label: 'Descripción',    required: true, },
-  amount:            { type: Number, label: 'Monto',          required: true, },
-  sign:              { type: Number, label: 'Signo',          required: true, enum: [1, -1], comments: '+ = 1 y - = -1' },
-  atCreated:         { type: Date,   label: 'F. Creación',                    default: Date.now, disabled: true},
-  lastupdate:        { type: Date,   label: 'Actualización',                  default: Date.now, disabled: true},
-  userupdate:        { type: String, label: 'Usuario',                        default: "Admin",  disabled: true},
-  idMeeting:         { type: Schema.Types.ObjectId, ref: 'data02',
-                                    label: 'ID Coincidente',                 },
-  meetings:          { type: Number, label: 'Coincidencias',                  comments: 'Cantidad encontrada', },
-  error:             { type: Number, label: 'Error',                          comments: 'Tipo de error', },
-  isClosed:          { type: Boolean,label: 'Esta cerrado?',                  comments: 'Inhibe modificar', }
+  service:           { type: String, required: true, enum: SERVICES, },
+  business_number:   { type: String, required: true, },
+  flag:              { type: String, required: true, enum: FLAGS,  },
+  type:              { type: String, required: true, enum: TYPE_CARDS, },
+  batch:             { type: Number, required: true, },
+  number:            { type: Number, required: true, },
+  last_4_number:     { type: Number, required: true, match: /^\d{1,4}$/},
+  installment:       { type: Number, required: true, },
+  presentation_date: { type: Date,   required: true, },
+  origin_date:       { type: Date,   required: true, },
+  payment_date:      { type: Date,   required: true, },
+  payment_month:     { type: Number, required: true, enum: MONTHS,},
+  description:       { type: String, required: true, },
+  amount:            { type: Number, required: true, },
+  sign:              { type: Number, required: true, enum: NUMBER_SIGNS, },
+  created:           { type: Date,   default: Date.now, disabled: true},
+  updated:           { type: Date,   default: Date.now, disabled: true},
+  userupdate:        { type: String, default: "Admin",  disabled: true},
+  idMeeting:         { type: Schema.Types.ObjectId, ref: 'data02', },
+  meetings:          { type: Number,  },
+  error:             { type: Number,  },
+  isClosed:          { type: Boolean, }
+}, {
+  timestamps: {
+    createdAt: 'created',
+    updatedAt: 'updated'
+  },
 });
 
 export default model('data01', fileSchema);
