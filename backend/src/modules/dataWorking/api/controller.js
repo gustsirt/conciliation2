@@ -8,52 +8,36 @@ export default class WorkController {
   }
 
   mark = async (req, res) => {
-    try {
-      const {configObject} = req.body
-      if (!configObject) return res.sendUserError("No se incluyo el objeto de configuracion")
-  
-      const response = await this.service.mark(configObject)
-      res.sendSuccess(response)
-    } catch (error) {
-      res.sendCatchError(error)
-    }
+    const {configObject} = req.body
+    if (!configObject) return res.sendUserError("No se incluyo el objeto de configuracion")
+
+    const response = await this.service.mark(configObject)
+    res.sendSuccess(response)
   }
 
   cleanMarks = async (req, res) => {
-    try {
-      const {configObject} = req.body
-      if (!configObject) return res.sendUserError("No se incluyo el objeto de configuracion")
-  
-      const response = await this.service.cleanMarks(configObject)
-      res.sendSuccess(response)
-    } catch (error) {
-      res.sendCatchError(error)
-    }
+    const {configObject} = req.body
+    if (!configObject) return res.sendUserError("No se incluyo el objeto de configuracion")
+
+    const response = await this.service.cleanMarks(configObject)
+    res.sendSuccess(response)
   }
 
   markMatching = async (req, res) => {
-    try {
-      const {id1, id2} = req.params
-      if (!id1 || !id2) return res.sendUserError("Datos necesarios incompletos")
-  
-      const response = await this.service.markMatching(id1, id2)
-      res.sendSuccess(response)
-    } catch (error) {
-      res.sendCatchError(error)
-    }
+    const {id1, id2} = req.params
+    if (!id1 || !id2) return res.sendUserError("Datos necesarios incompletos")
+
+    const response = await this.service.markMatching(id1, id2)
+    res.sendSuccess(response)
   }
 
   cleanMark = async (req, res) => {
-    try {
-      const {id, tableNumber} = req.params
-      if (!id || !tableNumber) return res.sendUserError("Datos necesarios incompletos")
-      if (tableNumber*1!= 1 && tableNumber*1!= 2) return res.sendUserError("El numero de la tabla no es valido")
-  
-      const response = await this.service.cleanMark(id, Number(tableNumber))
-      res.sendSuccess(response)
-    } catch (error) {
-      res.sendCatchError(error)
-    }
+    const {id, tableNumber} = req.params
+    if (!id || !tableNumber) return res.sendUserError("Datos necesarios incompletos")
+    if (tableNumber*1!= 1 && tableNumber*1!= 2) return res.sendUserError("El numero de la tabla no es valido")
+
+    const response = await this.service.cleanMark(id, Number(tableNumber))
+    res.sendSuccess(response)
   }
 
   summary = async (req, res) => {
@@ -70,13 +54,9 @@ export default class WorkController {
     if (service) match1.service = service;
     if (business_number) match1.business_number = business_number;
 
-    try {
-      console.log("funcion summary");
-      const summary = await this.service.summary(match1, match2)
-      res.sendSuccess(summary || "funcion summary")
-    } catch (error) {
-      res.sendCatchError(error, "An error occurred in the API request");
-    }
+    console.log("funcion summary");
+    const summary = await this.service.summary(match1, match2)
+    res.sendSuccess(summary || "funcion summary")
   }
 
 }
