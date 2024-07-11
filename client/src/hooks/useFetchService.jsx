@@ -1,8 +1,10 @@
 import { useState, useContext } from 'react';
-import { ContextConfig } from '../Context/ContextConfig.jsx';
+//import { ContextConfig } from '../Context/ContextConfig.jsx';
+import { useAppStore } from '../Store/useAppStore.jsx';
 
 const useFetchService = () => {
-  const { baseUrl } = useContext(ContextConfig); // Obtener la baseUrl del contexto
+  const { baseUrl } = useAppStore()
+  //const { baseUrl } = useContext(ContextConfig); // Obtener la baseUrl del contexto
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
