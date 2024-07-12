@@ -1,4 +1,4 @@
-const createStore = (set) => ({
+const createUserStore = (set) => ({
   user: {},
   token: JSON.parse(localStorage.getItem("token")),
   setUser: (newUser) => set({ user: newUser }),
@@ -8,4 +8,4 @@ const createStore = (set) => ({
   },
 })
 
-export default createStore
+export default createUserStore 

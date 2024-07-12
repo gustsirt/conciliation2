@@ -1,4 +1,4 @@
-const createStore = (set) => ({
+const createFileStore = (set) => ({
   backendFilter01: JSON.parse(localStorage.getItem("filter01")) || {},
   backendFilter02: JSON.parse(localStorage.getItem("filter02")) || {}, 
 
@@ -12,4 +12,4 @@ const createStore = (set) => ({
   },
 })
 
-export default createStore
+export default createFileStore
