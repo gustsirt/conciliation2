@@ -1,6 +1,6 @@
 import winston from 'winston'
-import program from '../config/commander.js'
-const {mode} = program.opts();
+//import program from '../config/commander.js'
+const {mode} = {mode: "development"};
 
 const { simple, combine, timestamp, colorize, errors } = winston.format;
 

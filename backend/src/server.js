@@ -1,5 +1,4 @@
 import express from 'express';
-import program from './config/commander.js';
 import configEnv from './config/env.js';
 import cors from 'cors';
 import __dirname from './libraries/utils/dirname.js';
@@ -12,8 +11,7 @@ import appRouter from './config/routes.js';
 import { handleEspecificErrors, handleGenericErrors } from './middleware/handleErrors.js';
 
 // App initialization ------------------------------
-const {mode} = program.opts();
-logger.info('Mode config: ' + mode);
+logger.info('Mode config: development');
 
 const app = express()
 
