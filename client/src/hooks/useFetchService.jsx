@@ -1,58 +1,85 @@
-import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import { useAppStore } from '../Store/useAppStore.jsx';
+import { useState, useContext } from 'react';
+import { ContextConfig } from '../Context/ContextConfig.jsx';
 
 const useFetchService = () => {
-  const { baseUrl } = useAppStore()
-  const queryClient = useQueryClient()
+  const { baseUrl } = useContext(ContextConfig);
 
-  
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
+
   const [loading, setLoading] = useState(false);
 
-  const fetchData = (endpoint) => {
-    return useQuery([endpoint], async () => {
-      const { data } = await axios.get(`${baseUrl}/${endpoint}`);
-      return data;
-    });
+  const fetchData = async (endpoint, filters = "") => {
+    try {
+      setLoading(true);
+      if (filters != "") {
+        const queryString = new URLSearchParams(filters).toString();
+        filters = "?"+queryString
+      }
+      const response = await fetch(`${baseUrl}/${endpoint}${filters}`, {
+        method: 'GET',
+        headers
+      });
+      if(response.status >= 400) throw Error;
+      setLoading(false);
+      return await response.json();
+    } catch (error) {
+      setLoading(false);
+      return { isError: true, message: "Ocurrió un error", error };
+    }
   };
 
-  const postData = (endpoint, body) => {
-    return useMutation(
-      async () => {
-        const { data } = await axios.post(`${baseUrl}/${endpoint}`, body);
-        return data;
-      },{
-        onSuccess: () => {
-          queryClient.invalidateQueries([endpoint]);
-      }}
-  )};
+  const postData = async (endpoint, body) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${baseUrl}/${endpoint}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
+      if(response.status >= 400) throw Error;
+      setLoading(false);
+      return await response.json();
+    } catch (error) {
+      setLoading(false);
+      return { isError: true, message: "Ocurrió un error", error };
+    }
+  };
 
-  const putData = (endpoint, body) => {
-    return useMutation(
-      async () => {
-        const { data } = await axios.put(`${baseUrl}/${endpoint}`, body);
-        return data;
-      },{
-        onSuccess: () => {
-          queryClient.invalidateQueries([endpoint]);
-        }}
-  )};
+  const putData = async (endpoint, body) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${baseUrl}/${endpoint}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(body),
+      });
+      if(response.status >= 400) throw Error;
+      setLoading(false);
+      return await response.json();
+    } catch (error) {
+      setLoading(false);
+      return { isError: true, message: "Ocurrió un error", error };
+    }
+  };
 
-  const deleteData = (endpoint, body = {}) => {
-    return useMutation(
-      async () => {
-        const { data } = await axios.delete(`${baseUrl}/${endpoint}`, { data: body });
-        return data;
-      },{
-        onSuccess: () => {
-          queryClient.invalidateQueries([endpoint]);
-      }}
-  )};
+  const deleteData = async (endpoint) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${baseUrl}/${endpoint}`, {
+        method: 'DELETE',
+        headers,
+      });
+      if(response.status >= 400) throw Error;
+      setLoading(false);
+      return await response.json();
+    } catch (error) {
+      setLoading(false);
+      return { isError: true, message: "Ocurrió un error", error };
+    }
+  };
 
-  return { fetchData, postData, putData, deleteData };
+  return { loading, fetchData, postData, putData, deleteData };
 };
 
 export default useFetchService;

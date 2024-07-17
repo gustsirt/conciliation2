@@ -16,6 +16,4 @@ router
   .get ('/unique/:field', uControl.getUniqueValue)
   .get ('/summary', uControl.summary)
 
-  wrapRoutesWithCatchAsync(router)
-
 export default router

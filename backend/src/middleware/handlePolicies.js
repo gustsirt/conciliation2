@@ -1,7 +1,8 @@
 import passport from "passport";
-import usersService from "../modules/user/logic/service.js";
+import Service from "../modules/user/logic/service.js";
 
 // ? AUTH JWT BEARER - PASSPORT
+const usersService = new Service()
 
 export const handleAuth = (policies) => {
   // Policies => ['PUBLIC', 'USER', 'USER_PREMIUM', 'ADMIN']
